@@ -93,4 +93,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$nav")
     implementation("androidx.navigation:navigation-ui-ktx:$nav")
 
+    // Timber
+    implementation("com.jakewharton.timber:timber:5.0.1")
+
 }
