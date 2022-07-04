@@ -13,3 +13,13 @@ data class NoteEntity(
     @ColumnInfo(name = "created_at") override val createdAt: Instant,
     @ColumnInfo(name = "modified_at") override val modifiedAt: Instant
 ) : Note
+
+fun Note.toNoteEntity() = when (this is NoteEntity) {
+    true -> this
+    false -> NoteEntity(
+        id = id,
+        title = title,
+        createdAt = createdAt,
+        modifiedAt = modifiedAt
+    )
+}
