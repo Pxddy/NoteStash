@@ -23,7 +23,7 @@ interface NoteDao {
 
     @Transaction
     // Use database transaction to synchronize the update
-    suspend fun updateNote(id: String, update: (note: NoteEntity) -> NoteEntity) {
+    suspend fun updateNote(id: String, update: suspend (note: NoteEntity) -> NoteEntity) {
         val noteToUpdate = requireNotNull(noteForId(id)) { "Found no note for id=${id}" }
         val updated = update(noteToUpdate).also {
             if (it.id != id) throw UnsupportedOperationException("Not allowed to change the id")
