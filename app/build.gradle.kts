@@ -1,6 +1,9 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
+    kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -43,6 +46,19 @@ android {
             "-opt-in=kotlin.ExperimentalStdlibApi"
         )
     }
+
+    hilt {
+        enableAggregatingTask = true
+    }
+
+    kapt {
+        // Recommended for Hilt
+        correctErrorTypes = true
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -50,7 +66,31 @@ dependencies {
     implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.appcompat:appcompat:1.4.2")
     implementation("com.google.android.material:material:1.6.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+
+    // Activity
+    implementation("androidx.activity:activity-ktx:1.5.0")
+
+    // Fragment
+    implementation("androidx.fragment:fragment-ktx:1.5.0")
+
+    // Lifecycle
+    val lifecycle = "2.5.0"
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle")
+    implementation("androidx.lifecycle:lifecycle-process:$lifecycle")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle")
+
+    // Hilt
+    val hilt = "2.42"
+    implementation("com.google.dagger:hilt-android:$hilt")
+    kapt("com.google.dagger:hilt-compiler:$hilt")
+
+    //
+    val nav = "2.5.0"
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav")
+
 }

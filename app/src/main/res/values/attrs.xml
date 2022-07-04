@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Temporary fix: https://stackoverflow.com/questions/71292277/colorinverseprimary-and-colorshadow-is-missing-in-theme-material3-light-noaction -->
+    <attr name="colorInversePrimary" format="reference|color" />
+    <attr name="colorShadow" format="reference|color" />
+</resources>
