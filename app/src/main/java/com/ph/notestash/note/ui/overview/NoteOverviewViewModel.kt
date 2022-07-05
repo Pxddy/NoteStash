@@ -8,6 +8,7 @@ import com.ph.notestash.note.core.model.Note
 import com.ph.notestash.note.core.repository.NoteRepository
 import com.ph.notestash.note.ui.overview.list.NoteOverviewListItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
@@ -23,6 +24,9 @@ class NoteOverviewViewModel @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
+    private val eventChannel = Channel<NoteOverviewEvent>(Channel.BUFFERED)
+    val events = eventChannel.receiveAsFlow()
+
     val uiState: StateFlow<NoteOverviewUiState> = noteRepository.allNotes()
         .map { it.toNoteOverviewUiState() }
         .catch {
@@ -35,21 +39,14 @@ class NoteOverviewViewModel @Inject constructor(
             initialValue = NoteOverviewUiState.Loading
         )
 
-    fun navigateToAddNote() = viewModelScope.launch(dispatcherProvider.Default) {
+    fun navigateToAddNote() = viewModelScope.launch {
         Timber.d("navigateToAddNote()")
-        DefaultNote(
-            id = UUID.randomUUID().toString(),
-            title = "Lorem ipsum",
-            content = """
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-            """.trimIndent(),
-            createdAt = Instant.now(),
-            modifiedAt = Instant.now()
-        ).also { noteRepository.insertNote(it) }
+        eventChannel.send(NoteOverviewEvent.NavigateToNoteEdit())
     }
 
-    fun navigateToEditNote(id: String) {
+    fun navigateToEditNote(id: String) = viewModelScope.launch {
         Timber.d("openEditNote(id=%s)", id)
+        eventChannel.send(NoteOverviewEvent.NavigateToNoteEdit(id = id))
     }
 
     private fun List<Note>.toNoteOverviewUiState(): NoteOverviewUiState {

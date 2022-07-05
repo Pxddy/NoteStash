@@ -9,5 +9,20 @@
         android:id="@+id/noteOverviewFragment"
         android:name="com.ph.notestash.note.ui.overview.NoteOverviewFragment"
         android:label="fragment_note_overview"
-        tools:layout="@layout/fragment_note_overview" />
+        tools:layout="@layout/fragment_note_overview">
+        <action
+            android:id="@+id/action_noteOverviewFragment_to_noteEditFragment"
+            app:destination="@id/noteEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteEditFragment"
+        android:name="com.ph.notestash.note.ui.edit.NoteEditFragment"
+        android:label="fragment_note_edit"
+        tools:layout="@layout/fragment_note_edit">
+        <argument
+            android:name="noteId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

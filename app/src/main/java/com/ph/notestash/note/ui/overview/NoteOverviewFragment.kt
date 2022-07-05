@@ -5,9 +5,12 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.ph.notestash.R
+import com.ph.notestash.common.fragment.navigateTo
 import com.ph.notestash.common.viewbinding.viewBinding
 import com.ph.notestash.databinding.FragmentNoteOverviewBinding
 import com.ph.notestash.note.ui.overview.list.NoteOverviewListAdapter
@@ -37,24 +40,40 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
 
         addNoteButton.setOnClickListener { viewModel.navigateToAddNote() }
 
-        lifecycleScope.launch {
-            viewModel.uiState
-                .flowWithLifecycle(viewLifecycleOwner.lifecycle)
-                .distinctUntilChanged()
-                .onEach { uiState ->
-                    loadingView.root.isVisible = uiState is NoteOverviewUiState.Loading
-                    errorView.root.isVisible = uiState is NoteOverviewUiState.Failure
-                    noteList.isVisible = uiState is NoteOverviewUiState.Success
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState
+                    .onEach { uiState ->
+                        Timber.d("uiState=%s", uiState)
+                        loadingView.root.isVisible = uiState is NoteOverviewUiState.Loading
+                        errorView.root.isVisible = uiState is NoteOverviewUiState.Failure
+                        noteList.isVisible = uiState is NoteOverviewUiState.Success
 
-                    when (uiState) {
-                        is NoteOverviewUiState.Success -> {
-                            adapter.submitList(uiState.notes)
+                        when (uiState) {
+                            is NoteOverviewUiState.Success -> {
+                                adapter.submitList(uiState.notes)
+                            }
+                            NoteOverviewUiState.Failure,
+                            NoteOverviewUiState.Loading -> Unit
                         }
-                        NoteOverviewUiState.Failure,
-                        NoteOverviewUiState.Loading -> Unit
                     }
-                }
-                .launchIn(viewLifecycleOwner.lifecycleScope)
+                    .launchIn(this)
+
+                viewModel.events
+                    .onEach { handleEvent(event = it) }
+                    .launchIn(this)
+            }
+        }
+    }
+
+    private fun handleEvent(event: NoteOverviewEvent) {
+        Timber.d("handleEvent(event=%s)", event)
+        when (event) {
+            is NoteOverviewEvent.NavigateToNoteEdit -> navigateTo(
+                NoteOverviewFragmentDirections.actionNoteOverviewFragmentToNoteEditFragment(
+                    noteId = event.id
+                )
+            )
         }
     }
 }
