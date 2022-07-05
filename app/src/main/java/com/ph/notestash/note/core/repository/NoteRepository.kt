@@ -12,7 +12,9 @@ import kotlinx.coroutines.async
 import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class NoteRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
