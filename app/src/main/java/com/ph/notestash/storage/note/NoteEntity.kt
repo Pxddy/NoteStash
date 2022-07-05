@@ -10,6 +10,7 @@ import java.time.Instant
 data class NoteEntity(
     @PrimaryKey @ColumnInfo(name = "id") override val id: String,
     @ColumnInfo(name = "title") override val title: String,
+    @ColumnInfo(name = "content") override val content: String,
     @ColumnInfo(name = "created_at") override val createdAt: Instant,
     @ColumnInfo(name = "modified_at") override val modifiedAt: Instant
 ) : Note
@@ -19,6 +20,7 @@ fun Note.toNoteEntity() = when (this is NoteEntity) {
     false -> NoteEntity(
         id = id,
         title = title,
+        content = content,
         createdAt = createdAt,
         modifiedAt = modifiedAt
     )
