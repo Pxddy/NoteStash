@@ -30,6 +30,14 @@ class NoteOverviewViewModel @Inject constructor(
             initialValue = NoteOverviewUiState.Loading
         )
 
+    fun navigateToAddNote() {
+        Timber.d("navigateToAddNote()")
+    }
+
+    fun navigateToEditNote(id: String) {
+        Timber.d("openEditNote(id=%s)", id)
+    }
+
     private fun List<Note>.toNoteOverviewUiState(): NoteOverviewUiState {
         return NoteOverviewUiState.Success(notes = this)
     }

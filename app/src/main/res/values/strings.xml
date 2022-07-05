@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">NoteStash</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name" translatable="false">NoteStash</string>
+
+    <!-- GenericLoadingView -->
+    <string name="view_generic_loading_info">Loading data…</string>
+
+    <!-- GenericErrorView -->
+    <string name="view_generic_error_info">Something went wrong!</string>
 </resources>

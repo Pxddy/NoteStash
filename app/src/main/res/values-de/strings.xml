@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GenericLoadingView -->
+    <string name="view_generic_loading_info">Lade Daten…</string>
+
+    <!-- GenericErrorView -->
+    <string name="view_generic_error_info">Etwas ist schief gelaufen!</string>
+</resources>

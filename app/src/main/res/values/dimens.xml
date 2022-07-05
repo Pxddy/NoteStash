@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spacing, 8 dp baseline, https://material.io/design/layout/understanding-layout.html -->
+    <dimen name="tiny_spacing">8dp</dimen>
+    <dimen name="small_spacing">16dp</dimen>
+    <dimen name="normal_spacing">24dp</dimen>
+    <dimen name="medium_spacing">32dp</dimen>
+    <dimen name="large_spacing">40dp</dimen>
+    <dimen name="huge_spacing">48dp</dimen>
+    <dimen name="eight_times_spacing">64dp</dimen>
+    <dimen name="eleven_times_spacing">88dp</dimen>
+</resources>

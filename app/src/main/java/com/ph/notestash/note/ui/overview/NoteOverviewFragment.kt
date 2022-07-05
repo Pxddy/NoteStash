@@ -2,6 +2,7 @@ package com.ph.notestash.note.ui.overview
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -10,7 +11,6 @@ import com.ph.notestash.R
 import com.ph.notestash.common.viewbinding.viewBinding
 import com.ph.notestash.databinding.FragmentNoteOverviewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -26,17 +26,21 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindViewModel()
-        binding.text.text = "It worked!"
     }
 
     private fun bindViewModel() = with(binding) {
         Timber.d("bindViewModel()")
+
+        addNoteButton.setOnClickListener { viewModel.navigateToAddNote() }
+
         lifecycleScope.launch {
             viewModel.uiState
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .distinctUntilChanged()
                 .onEach { uiState ->
-                    Timber.d("uiState=%s", uiState)
+                    loadingView.root.isVisible = uiState is NoteOverviewUiState.Loading
+                    errorView.root.isVisible = uiState is NoteOverviewUiState.Failure
+                    noteList.isVisible = uiState is NoteOverviewUiState.Success
                 }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }
