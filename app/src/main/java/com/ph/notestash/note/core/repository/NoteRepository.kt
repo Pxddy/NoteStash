@@ -4,11 +4,14 @@ import com.ph.notestash.common.coroutines.dispatcher.DispatcherProvider
 import com.ph.notestash.common.coroutines.scope.AppScope
 import com.ph.notestash.common.time.TimeProvider
 import com.ph.notestash.note.core.model.Note
+import com.ph.notestash.note.core.model.UpdateNoteAction
+import com.ph.notestash.note.core.model.toMutableNote
 import com.ph.notestash.storage.note.NoteDao
 import com.ph.notestash.storage.note.toNoteEntity
 import dagger.Lazy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
@@ -27,9 +30,9 @@ class NoteRepository @Inject constructor(
     //TODO: Add Sorting
     fun allNotes() = noteDao.allNotes()
 
-    suspend fun noteForId(id: String) = executeAndAwait {
+    fun noteForId(id: String): Flow<Note?> {
         Timber.d("noteForId(id=%s)", id)
-        noteDao.noteForId(id)
+        return noteDao.noteForId(id)
     }
 
     suspend fun insertNote(note: Note) = executeAndAwait {
@@ -45,11 +48,14 @@ class NoteRepository @Inject constructor(
     suspend fun updateNote(
         id: String,
         modifiedAt: Instant = timeProvider.now,
-        update: suspend (note: Note) -> Note
+        update: UpdateNoteAction
     ) = executeAndAwait {
         Timber.d("updateNote(id=%s)", id)
         noteDao.updateNote(id = id) { note ->
-            update(note).toNoteEntity().copy(modifiedAt = modifiedAt)
+            note.toMutableNote()
+                .apply(update)
+                .apply { this.modifiedAt = modifiedAt }
+                .toNoteEntity()
         }
     }
 

@@ -5,4 +5,8 @@
 
     <!-- GenericErrorView -->
     <string name="view_generic_error_info">Etwas ist schief gelaufen!</string>
+
+    <!-- NoteEditFragment -->
+    <string name="fragment_note_edit_hint_title">Titel</string>
+    <string name="fragment_note_edit_hint_content">Notiz</string>
 </resources>

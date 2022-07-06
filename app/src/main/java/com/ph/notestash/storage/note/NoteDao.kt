@@ -2,6 +2,7 @@ package com.ph.notestash.storage.note
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 
 @Dao
 interface NoteDao {
@@ -10,7 +11,7 @@ interface NoteDao {
     fun allNotes(): Flow<List<NoteEntity>>
 
     @Query("SELECT * FROM notes WHERE id = :id")
-    suspend fun noteForId(id: String): NoteEntity?
+    fun noteForId(id: String): Flow<NoteEntity?>
 
     @Insert
     suspend fun insertNote(noteEntity: NoteEntity)
@@ -24,7 +25,9 @@ interface NoteDao {
     @Transaction
     // Use database transaction to synchronize the update
     suspend fun updateNote(id: String, update: suspend (note: NoteEntity) -> NoteEntity) {
-        val noteToUpdate = requireNotNull(noteForId(id)) { "Found no note for id=${id}" }
+        val noteToUpdate = requireNotNull(
+            noteForId(id).firstOrNull()
+        ) { "Found no note for id=${id}" }
         val updated = update(noteToUpdate).also {
             if (it.id != id) throw UnsupportedOperationException("Not allowed to change the id")
         }

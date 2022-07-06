@@ -58,6 +58,7 @@ class NoteOverviewViewModel @Inject constructor(
     private fun Note.toNoteOverviewListItem() = NoteOverviewListItem(
         title = title,
         content = content,
-        id = id
+        id = id,
+        onClick = this@NoteOverviewViewModel::navigateToEditNote
     )
 }

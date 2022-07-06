@@ -10,5 +10,7 @@ class NoteOverviewListItemVH(
     fun bind(item: NoteOverviewListItem) = with(binding) {
         title.text = item.title
         content.text = item.content
+
+        root.setOnClickListener { item.onclick() }
     }
 }
