@@ -9,4 +9,9 @@
     <!-- NoteEditFragment -->
     <string name="fragment_note_edit_hint_title">Titel</string>
     <string name="fragment_note_edit_hint_content">Notiz</string>
+
+    <string name="fragment_note_overview_restore_message">Notiz gelöscht</string>
+    <string name="fragment_note_overview_restore_action_text">Rückgängig</string>
+    <string name="fragment_note_overview_restore_retry_message">Wiederherstellung der Notiz fehlgeschlagen :(</string>
+    <string name="fragment_note_overview_restore_retry_action_text">Erneut versuchen</string>
 </resources>

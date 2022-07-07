@@ -10,7 +10,6 @@ import com.ph.notestash.note.core.model.toMutableNote
 import com.ph.notestash.storage.note.NoteDao
 import com.ph.notestash.storage.note.toNoteEntity
 import dagger.Lazy
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
@@ -42,9 +41,9 @@ class NoteRepository @Inject constructor(
         noteDao.insertNote(note.toNoteEntity())
     }
 
-    suspend fun deleteNote(note: Note) = executeAndAwait {
-        Timber.d("deleteNote(note:%s)", note)
-        noteDao.deleteNote(note.toNoteEntity())
+    suspend fun deleteNote(id: String): Result<Note> = executeAndAwait {
+        Timber.d("deleteNote(id=%s) - Thread=%s", id, Thread.currentThread().name)
+        noteDao.deleteNote(id)
     }
 
     suspend fun updateNote(

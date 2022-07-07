@@ -19,18 +19,27 @@ interface NoteDao {
     @Delete
     suspend fun deleteNote(noteEntity: NoteEntity)
 
+    @Transaction
+    suspend fun deleteNote(id: String): NoteEntity {
+        val noteToDelete = requireNote(id)
+        deleteNote(noteToDelete)
+        return noteToDelete
+    }
+
     @Update
     suspend fun updateNote(noteEntity: NoteEntity)
 
     @Transaction
     // Use database transaction to synchronize the update
     suspend fun updateNote(id: String, update: suspend (note: NoteEntity) -> NoteEntity) {
-        val noteToUpdate = requireNotNull(
-            noteForId(id).firstOrNull()
-        ) { "Found no note for id=${id}" }
+        val noteToUpdate = requireNote(id)
         val updated = update(noteToUpdate).also {
             if (it.id != id) throw UnsupportedOperationException("Not allowed to change the id")
         }
         updateNote(updated)
     }
+}
+
+private suspend fun NoteDao.requireNote(id: String): NoteEntity {
+    return requireNotNull(noteForId(id).firstOrNull()) { "Found no note for id=${id}" }
 }

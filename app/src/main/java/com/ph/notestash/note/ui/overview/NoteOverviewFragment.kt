@@ -8,11 +8,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.ItemTouchHelper
+import com.google.android.material.snackbar.Snackbar
 import com.ph.notestash.R
 import com.ph.notestash.common.fragment.navigateTo
 import com.ph.notestash.common.viewbinding.viewBinding
 import com.ph.notestash.databinding.FragmentNoteOverviewBinding
 import com.ph.notestash.note.ui.overview.list.NoteOverviewListAdapter
+import com.ph.notestash.note.ui.overview.list.NoteOverviewListSwipeCallback
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -37,6 +40,8 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
         noteList.adapter = adapter
 
         addNoteButton.setOnClickListener { viewModel.navigateToAddNote() }
+
+        ItemTouchHelper(NoteOverviewListSwipeCallback()).attachToRecyclerView(noteList)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -71,6 +76,17 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
                     noteId = event.id
                 )
             )
+            is NoteOverviewEvent.RestoreNote -> event.handle()
         }
+    }
+
+    private fun NoteOverviewEvent.RestoreNote.handle() {
+        val (msg, actionText) = when (retry) {
+            true -> R.string.fragment_note_overview_restore_retry_message to R.string.fragment_note_overview_restore_retry_action_text
+            false -> R.string.fragment_note_overview_restore_message to R.string.fragment_note_overview_restore_action_text
+        }
+        Snackbar.make(binding.root, msg, Snackbar.LENGTH_LONG)
+            .setAction(actionText) { viewModel.restoreNote(note) }
+            .show()
     }
 }

@@ -10,4 +10,10 @@
     <!-- NoteEditFragment -->
     <string name="fragment_note_edit_hint_title">Title</string>
     <string name="fragment_note_edit_hint_content">Note</string>
+
+    <!-- NoteOverviewFragment -->
+    <string name="fragment_note_overview_restore_message">Note deleted</string>
+    <string name="fragment_note_overview_restore_action_text">Undo</string>
+    <string name="fragment_note_overview_restore_retry_message">Failed to restore note :(</string>
+    <string name="fragment_note_overview_restore_retry_action_text">Try again</string>
 </resources>

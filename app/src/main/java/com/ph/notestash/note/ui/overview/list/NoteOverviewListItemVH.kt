@@ -7,10 +7,18 @@ class NoteOverviewListItemVH(
     private val binding: FragmentNoteOverviewListItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
+    private var item: NoteOverviewListItem? = null
+
     fun bind(item: NoteOverviewListItem) = with(binding) {
+        this@NoteOverviewListItemVH.item = item
+
         title.text = item.title
         content.text = item.content
 
         root.setOnClickListener { item.onclick() }
+    }
+
+    fun onSwiped() {
+        item?.onSwiped()
     }
 }
