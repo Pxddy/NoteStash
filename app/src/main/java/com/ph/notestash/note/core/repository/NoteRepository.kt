@@ -2,6 +2,7 @@ package com.ph.notestash.note.core.repository
 
 import com.ph.notestash.common.coroutines.dispatcher.DispatcherProvider
 import com.ph.notestash.common.coroutines.scope.AppScope
+import com.ph.notestash.common.result.checkCancellation
 import com.ph.notestash.common.time.TimeProvider
 import com.ph.notestash.note.core.model.Note
 import com.ph.notestash.note.core.model.UpdateNoteAction
@@ -9,6 +10,7 @@ import com.ph.notestash.note.core.model.toMutableNote
 import com.ph.notestash.storage.note.NoteDao
 import com.ph.notestash.storage.note.toNoteEntity
 import dagger.Lazy
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
@@ -62,5 +64,5 @@ class NoteRepository @Inject constructor(
     private suspend fun <T> executeAndAwait(action: suspend () -> T): Result<T> = runCatching {
         val deferred = appScope.async(dispatcherProvider.IO) { action() }
         deferred.await()
-    }
+    }.checkCancellation()
 }

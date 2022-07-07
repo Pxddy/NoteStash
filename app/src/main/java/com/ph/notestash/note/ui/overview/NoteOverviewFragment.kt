@@ -6,7 +6,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.ph.notestash.R
@@ -15,7 +14,6 @@ import com.ph.notestash.common.viewbinding.viewBinding
 import com.ph.notestash.databinding.FragmentNoteOverviewBinding
 import com.ph.notestash.note.ui.overview.list.NoteOverviewListAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -44,7 +42,6 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState
                     .onEach { uiState ->
-                        Timber.d("uiState=%s", uiState)
                         loadingView.root.isVisible = uiState is NoteOverviewUiState.Loading
                         errorView.root.isVisible = uiState is NoteOverviewUiState.Failure
                         noteList.isVisible = uiState is NoteOverviewUiState.Success

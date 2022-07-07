@@ -10,6 +10,7 @@ import com.ph.notestash.note.core.model.Note
 import com.ph.notestash.note.core.model.UpdateNoteAction
 import com.ph.notestash.note.core.repository.NoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
@@ -26,9 +27,16 @@ class NoteEditViewModel @Inject constructor(
     private val timeProvider: TimeProvider
 ) : ViewModel() {
 
+    private val eventChannel = Channel<NoteEditEvent>(Channel.BUFFERED)
+    val events = eventChannel.receiveAsFlow()
+
     val uiState: StateFlow<NoteEditUiState> = noteRepository.noteForId(id)
         .filterNotNull()
         .map { it.toUiState() }
+        .catch {
+            Timber.e(it, "Failed to load note")
+            emit(NoteEditUiState.Failure)
+        }
         .stateIn(
             scope = viewModelScope + dispatcherProvider.Default,
             started = SharingStarted.WhileSubscribed(stopTimeout = 5.seconds),
@@ -37,6 +45,12 @@ class NoteEditViewModel @Inject constructor(
 
     fun updateNote(update: UpdateNoteAction) = viewModelScope.launch {
         noteRepository.updateNote(id = id, update = update)
+            .onFailure { Timber.e(it, "Failed to update note") }
+    }
+
+    fun goBack() = viewModelScope.launch {
+        Timber.d("goBack()")
+        eventChannel.send(NoteEditEvent.NavigateBack)
     }
 
     private fun Note.toUiState(): NoteEditUiState = NoteEditUiState.Success(
