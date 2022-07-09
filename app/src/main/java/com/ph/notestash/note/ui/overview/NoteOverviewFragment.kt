@@ -1,7 +1,13 @@
 package com.ph.notestash.note.ui.overview
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import androidx.core.view.MenuCompat
+import androidx.core.view.MenuItemCompat
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,10 +18,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.snackbar.Snackbar
 import com.ph.notestash.R
 import com.ph.notestash.common.fragment.navigateTo
+import com.ph.notestash.common.recyclerview.swipe.SimpleSwipeCallback
 import com.ph.notestash.common.viewbinding.viewBinding
 import com.ph.notestash.databinding.FragmentNoteOverviewBinding
-import com.ph.notestash.note.ui.overview.list.NoteOverviewListAdapter
-import com.ph.notestash.note.ui.overview.list.NoteOverviewListSwipeCallback
+import com.ph.notestash.note.ui.overview.list.note.NoteOverviewListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -31,6 +37,7 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindViewModel()
+        setupMenu()
     }
 
     private fun bindViewModel() = with(binding) {
@@ -41,7 +48,7 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
 
         addNoteButton.setOnClickListener { viewModel.navigateToAddNote() }
 
-        ItemTouchHelper(NoteOverviewListSwipeCallback()).attachToRecyclerView(noteList)
+        ItemTouchHelper(SimpleSwipeCallback()).attachToRecyclerView(noteList)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -88,5 +95,19 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
         Snackbar.make(binding.root, msg, Snackbar.LENGTH_LONG)
             .setAction(actionText) { viewModel.restoreNote(note) }
             .show()
+    }
+
+    private fun setupMenu() {
+        Timber.d("setupMenu()")
+        binding.toolbar.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                MenuCompat.setGroupDividerEnabled(menu, true)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                Timber.d("item=%s", menuItem)
+                return false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 }

@@ -16,4 +16,12 @@
     <string name="fragment_note_overview_restore_action_text">Undo</string>
     <string name="fragment_note_overview_restore_retry_message">Failed to restore note :(</string>
     <string name="fragment_note_overview_restore_retry_action_text">Try again</string>
+
+    <!-- NoteOverviewMenu -->
+    <string name="menu_note_overview_item_sort">Sort</string>
+    <string name="menu_note_overview_action_sort_by_title">Title</string>
+    <string name="menu_note_overview_action_sort_by_created">Created at</string>
+    <string name="menu_note_overview_action_sort_by_modified">Modified at</string>
+    <string name="menu_note_overview_action_sort_order_ascending">Ascending</string>
+    <string name="menu_note_overview_action_sort_order_descending">Descending</string>
 </resources>

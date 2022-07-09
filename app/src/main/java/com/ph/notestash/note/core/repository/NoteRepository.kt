@@ -13,6 +13,8 @@ import dagger.Lazy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
@@ -26,14 +28,23 @@ class NoteRepository @Inject constructor(
     private val timeProvider: TimeProvider
 ) {
 
+    // Makes it possible to instantiate the database and dao in a background thread
     private val noteDao get() = noteDaoLazy.get()
 
-    //TODO: Add Sorting
-    fun allNotes() = noteDao.allNotes()
+    fun allNotes(sortedBy: SortedBy, sortOrder: SortOrder) = flow {
+        Timber.d("allNotes(sortedBy=%s, sortOrder=%s)", sortedBy, sortOrder)
+        val allNotes = with(noteDao) {
+            when (sortOrder) {
+                SortOrder.Ascending -> allNotesAscending(sortedBy)
+                SortOrder.Descending -> allNotesDescending(sortedBy)
+            }
+        }
+        emitAll(allNotes)
+    }
 
-    fun noteForId(id: String): Flow<Note?> {
+    fun noteForId(id: String): Flow<Note?> = flow {
         Timber.d("noteForId(id=%s)", id)
-        return noteDao.noteForId(id)
+        emitAll(noteDao.noteForId(id))
     }
 
     suspend fun insertNote(note: Note) = executeAndAwait {
@@ -42,7 +53,7 @@ class NoteRepository @Inject constructor(
     }
 
     suspend fun deleteNote(id: String): Result<Note> = executeAndAwait {
-        Timber.d("deleteNote(id=%s) - Thread=%s", id, Thread.currentThread().name)
+        Timber.d("deleteNote(id=%s)", id)
         noteDao.deleteNote(id)
     }
 
@@ -64,4 +75,27 @@ class NoteRepository @Inject constructor(
         val deferred = appScope.async(dispatcherProvider.IO) { action() }
         deferred.await()
     }.checkCancellation()
+
+    private fun NoteDao.allNotesAscending(sortedBy: SortedBy) = when (sortedBy) {
+        SortedBy.Title -> allNotesOrderByTitleAsc()
+        SortedBy.CreatedAt -> allNotesOrderByCreatedAtAsc()
+        SortedBy.ModifiedAt -> allNotesOrderByModifiedAtAsc()
+    }
+
+    private fun NoteDao.allNotesDescending(sortedBy: SortedBy) = when (sortedBy) {
+        SortedBy.Title -> allNotesOrderByTitleDesc()
+        SortedBy.CreatedAt -> allNotesOrderByCreatedAtDesc()
+        SortedBy.ModifiedAt -> allNotesOrderByModifiedAtDesc()
+    }
+
+    enum class SortOrder {
+        Ascending,
+        Descending
+    }
+
+    enum class SortedBy {
+        Title,
+        CreatedAt,
+        ModifiedAt
+    }
 }

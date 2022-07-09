@@ -7,8 +7,23 @@ import kotlinx.coroutines.flow.firstOrNull
 @Dao
 interface NoteDao {
 
-    @Query("SELECT * FROM notes")
-    fun allNotes(): Flow<List<NoteEntity>>
+    @Query("SELECT * FROM notes ORDER BY title COLLATE NOCASE ASC")
+    fun allNotesOrderByTitleAsc(): Flow<List<NoteEntity>>
+
+    @Query("SELECT * FROM notes ORDER BY title COLLATE NOCASE DESC")
+    fun allNotesOrderByTitleDesc(): Flow<List<NoteEntity>>
+
+    @Query("SELECT * FROM notes ORDER BY datetime(created_at) ASC")
+    fun allNotesOrderByCreatedAtAsc(): Flow<List<NoteEntity>>
+
+    @Query("SELECT * FROM notes ORDER BY datetime(created_at) DESC")
+    fun allNotesOrderByCreatedAtDesc(): Flow<List<NoteEntity>>
+
+    @Query("SELECT * FROM notes ORDER BY datetime(modified_at) ASC")
+    fun allNotesOrderByModifiedAtAsc(): Flow<List<NoteEntity>>
+
+    @Query("SELECT * FROM notes ORDER BY datetime(modified_at) DESC")
+    fun allNotesOrderByModifiedAtDesc(): Flow<List<NoteEntity>>
 
     @Query("SELECT * FROM notes WHERE id = :id")
     fun noteForId(id: String): Flow<NoteEntity?>

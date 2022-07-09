@@ -10,8 +10,17 @@
     <string name="fragment_note_edit_hint_title">Titel</string>
     <string name="fragment_note_edit_hint_content">Notiz</string>
 
+    <!-- NoteOverviewFragment -->
     <string name="fragment_note_overview_restore_message">Notiz gelöscht</string>
     <string name="fragment_note_overview_restore_action_text">Rückgängig</string>
     <string name="fragment_note_overview_restore_retry_message">Wiederherstellung der Notiz fehlgeschlagen :(</string>
     <string name="fragment_note_overview_restore_retry_action_text">Erneut versuchen</string>
+
+    <!-- NoteOverviewMenu -->
+    <string name="menu_note_overview_item_sort">Sortierung</string>
+    <string name="menu_note_overview_action_sort_by_title">Titel</string>
+    <string name="menu_note_overview_action_sort_by_created">Erstellt am</string>
+    <string name="menu_note_overview_action_sort_by_modified">Geändert am</string>
+    <string name="menu_note_overview_action_sort_order_ascending">Aufsteigend</string>
+    <string name="menu_note_overview_action_sort_order_descending">Absteigend</string>
 </resources>

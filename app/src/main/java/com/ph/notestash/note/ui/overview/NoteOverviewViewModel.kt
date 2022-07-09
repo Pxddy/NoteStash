@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ph.notestash.common.coroutines.dispatcher.DispatcherProvider
 import com.ph.notestash.note.core.model.Note
 import com.ph.notestash.note.core.repository.NoteRepository
-import com.ph.notestash.note.ui.overview.list.NoteOverviewListItem
+import com.ph.notestash.note.ui.overview.list.note.NoteOverviewListItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -24,7 +24,10 @@ class NoteOverviewViewModel @Inject constructor(
     private val eventChannel = Channel<NoteOverviewEvent>(Channel.BUFFERED)
     val events = eventChannel.receiveAsFlow()
 
-    val uiState: StateFlow<NoteOverviewUiState> = noteRepository.allNotes()
+    val uiState: StateFlow<NoteOverviewUiState> = noteRepository.allNotes(
+        sortedBy = NoteRepository.SortedBy.CreatedAt,
+        sortOrder = NoteRepository.SortOrder.Descending
+    )
         .map { it.toNoteOverviewUiState() }
         .catch {
             Timber.e(it, "Failed to load notes")
