@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/ThemeOverlay.Material3.BottomSheetDialog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider_top"
+        style="@style/Widget.Material3.MaterialDivider.Heavy"
+        android:layout_width="50dp"
+        android:layout_height="5dp"
+        android:layout_margin="@dimen/tiny_spacing"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title_sort_by"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_note_overview_sort_dialog_title_sort_by"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+
+    <RadioGroup
+        android:id="@+id/radio_group_sort_by"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radio_button_sort_by_title"
+            style="@style/Widget.Material3.CompoundButton.RadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            android:button="@null"
+            android:drawableEnd="?android:listChoiceIndicatorSingle"
+            android:text="@string/fragment_note_overview_sort_dialog_radio_button_sort_by_title" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radio_button_sort_by_created"
+            style="@style/Widget.Material3.CompoundButton.RadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            android:button="@null"
+            android:drawableEnd="?android:listChoiceIndicatorSingle"
+            android:text="@string/fragment_note_overview_sort_dialog_radio_button_sort_by_created" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radio_button_sort_by_modified"
+            style="@style/Widget.Material3.CompoundButton.RadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            android:button="@null"
+            android:drawableEnd="?android:listChoiceIndicatorSingle"
+            android:text="@string/fragment_note_overview_sort_dialog_radio_button_sort_by_modified" />
+    </RadioGroup>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title_sort_order"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/small_spacing"
+        android:text="@string/fragment_note_overview_sort_dialog_title_sort_order"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+
+    <RadioGroup
+        android:id="@+id/radio_group_sort_order"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radio_button_sort_order_ascending"
+            style="@style/Widget.Material3.CompoundButton.RadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            android:button="@null"
+            android:drawableEnd="?android:listChoiceIndicatorSingle"
+            android:text="@string/fragment_note_overview_sort_dialog_radio_button_sort_order_ascending" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radio_button_sort_order_descending"
+            style="@style/Widget.Material3.CompoundButton.RadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            android:button="@null"
+            android:drawableEnd="?android:listChoiceIndicatorSingle"
+            android:text="@string/fragment_note_overview_sort_dialog_radio_button_sort_order_descending" />
+    </RadioGroup>
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/normal_spacing"
+        android:orientation="vertical"
+        app:constraint_referenced_ids="title_sort_by,radio_group_sort_by,divider,title_sort_order,radio_group_sort_order"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider_top" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

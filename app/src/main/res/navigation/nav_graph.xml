@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_noteOverviewFragment_to_noteEditFragment"
             app:destination="@id/noteEditFragment" />
+        <action
+            android:id="@+id/action_noteOverviewFragment_to_noteOverviewSortDialogFragment"
+            app:destination="@id/noteOverviewSortDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/noteEditFragment"
@@ -25,4 +28,8 @@
             app:argType="string"
             app:nullable="true" />
     </fragment>
+    <dialog
+        android:id="@+id/noteOverviewSortDialogFragment"
+        android:name="com.ph.notestash.note.ui.overview.dialog.NoteOverviewSortDialogFragment"
+        android:label="NoteOverviewSortDialogFragment" />
 </navigation>

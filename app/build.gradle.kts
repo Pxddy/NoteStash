@@ -17,17 +17,6 @@ android {
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas",
-                    "room.incremental" to "true",
-                    "room.expandProjection" to "true"
-                )
-            }
-
-        }
     }
 
     buildTypes {
@@ -65,6 +54,11 @@ android {
     kapt {
         // Recommended for Hilt
         correctErrorTypes = true
+        arguments {
+            arg("room.schemaLocation", "$projectDir/schemas")
+            arg("room.incremental", true)
+            arg("room.expandProjection", true)
+        }
     }
 
     buildFeatures {
@@ -129,4 +123,11 @@ dependencies {
     // Recyclerview
     implementation("androidx.recyclerview:recyclerview:1.2.1")
 
+    // DataStore
+    implementation("androidx.datastore:datastore:1.0.0")
+
+    // Moshi
+    val moshi = "1.13.0"
+    implementation("com.squareup.moshi:moshi:$moshi")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:$moshi")
 }

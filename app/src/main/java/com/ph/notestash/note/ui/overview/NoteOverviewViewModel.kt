@@ -6,6 +6,7 @@ import com.ph.notestash.common.coroutines.dispatcher.DispatcherProvider
 import com.ph.notestash.note.core.model.Note
 import com.ph.notestash.note.core.repository.NoteRepository
 import com.ph.notestash.note.ui.overview.list.note.NoteOverviewListItem
+import com.ph.notestash.storage.repository.NoteSortingPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -18,16 +19,16 @@ import kotlin.time.Duration.Companion.seconds
 @HiltViewModel
 class NoteOverviewViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val noteRepository: NoteRepository,
+    noteSortingPreferencesRepository: NoteSortingPreferencesRepository,
+    private val noteRepository: NoteRepository
 ) : ViewModel() {
 
     private val eventChannel = Channel<NoteOverviewEvent>(Channel.BUFFERED)
     val events = eventChannel.receiveAsFlow()
 
-    val uiState: StateFlow<NoteOverviewUiState> = noteRepository.allNotes(
-        sortedBy = NoteRepository.SortedBy.CreatedAt,
-        sortOrder = NoteRepository.SortOrder.Descending
-    )
+    val uiState: StateFlow<NoteOverviewUiState> = noteSortingPreferencesRepository
+        .noteSortingPreferences
+        .flatMapLatest { noteRepository.allNotes(sortedBy = it.sortedBy, sortOrder = it.sortOrder) }
         .map { it.toNoteOverviewUiState() }
         .catch {
             Timber.e(it, "Failed to load notes")
@@ -52,6 +53,11 @@ class NoteOverviewViewModel @Inject constructor(
                 Timber.e(it, "Failed to restore note")
                 eventChannel.send(NoteOverviewEvent.RestoreNote(note = note, retry = true))
             }
+    }
+
+    fun showSortingDialog() = viewModelScope.launch {
+        Timber.d("showSortingDialog()")
+        eventChannel.send(NoteOverviewEvent.ShowSortingDialog)
     }
 
     private fun navigateToEditNote(id: String) = viewModelScope.launch {

@@ -1,13 +1,7 @@
 package com.ph.notestash.note.ui.overview
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
-import androidx.core.view.MenuCompat
-import androidx.core.view.MenuItemCompat
-import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -53,25 +47,30 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState
-                    .onEach { uiState ->
-                        loadingView.root.isVisible = uiState is NoteOverviewUiState.Loading
-                        errorView.root.isVisible = uiState is NoteOverviewUiState.Failure
-                        noteList.isVisible = uiState is NoteOverviewUiState.Success
-
-                        when (uiState) {
-                            is NoteOverviewUiState.Success -> {
-                                adapter.submitList(uiState.notes)
-                            }
-                            NoteOverviewUiState.Failure,
-                            NoteOverviewUiState.Loading -> Unit
-                        }
-                    }
+                    .onEach { handleUiState(uiState = it, adapter = adapter) }
                     .launchIn(this)
 
                 viewModel.events
                     .onEach { handleEvent(event = it) }
                     .launchIn(this)
             }
+        }
+    }
+
+    private fun handleUiState(
+        uiState: NoteOverviewUiState,
+        adapter: NoteOverviewListAdapter
+    ) = with(binding) {
+        loadingView.root.isVisible = uiState is NoteOverviewUiState.Loading
+        errorView.root.isVisible = uiState is NoteOverviewUiState.Failure
+        noteList.isVisible = uiState is NoteOverviewUiState.Success
+
+        when (uiState) {
+            is NoteOverviewUiState.Success -> {
+                adapter.submitList(uiState.notes)
+            }
+            NoteOverviewUiState.Failure,
+            NoteOverviewUiState.Loading -> Unit
         }
     }
 
@@ -84,6 +83,10 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
                 )
             )
             is NoteOverviewEvent.RestoreNote -> event.handle()
+            NoteOverviewEvent.ShowSortingDialog -> navigateTo(
+                NoteOverviewFragmentDirections
+                    .actionNoteOverviewFragmentToNoteOverviewSortDialogFragment()
+            )
         }
     }
 
@@ -99,15 +102,14 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
 
     private fun setupMenu() {
         Timber.d("setupMenu()")
-        binding.toolbar.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                MenuCompat.setGroupDividerEnabled(menu, true)
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_sort -> {
+                    viewModel.showSortingDialog()
+                    true
+                }
+                else -> false
             }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                Timber.d("item=%s", menuItem)
-                return false
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }
     }
 }

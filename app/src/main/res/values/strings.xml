@@ -19,9 +19,14 @@
 
     <!-- NoteOverviewMenu -->
     <string name="menu_note_overview_item_sort">Sort</string>
-    <string name="menu_note_overview_action_sort_by_title">Title</string>
-    <string name="menu_note_overview_action_sort_by_created">Created at</string>
-    <string name="menu_note_overview_action_sort_by_modified">Modified at</string>
-    <string name="menu_note_overview_action_sort_order_ascending">Ascending</string>
-    <string name="menu_note_overview_action_sort_order_descending">Descending</string>
+
+    <!-- NoteOverviewSortDialogFragment -->
+    <string name="fragment_note_overview_sort_dialog_title_sort_by">Sort by</string>
+    <string name="fragment_note_overview_sort_dialog_radio_button_sort_by_title">Title</string>
+    <string name="fragment_note_overview_sort_dialog_radio_button_sort_by_created">Created at</string>
+    <string name="fragment_note_overview_sort_dialog_radio_button_sort_by_modified">Modified at</string>
+
+    <string name="fragment_note_overview_sort_dialog_title_sort_order">Sort order</string>
+    <string name="fragment_note_overview_sort_dialog_radio_button_sort_order_ascending">Ascending</string>
+    <string name="fragment_note_overview_sort_dialog_radio_button_sort_order_descending">Descending</string>
 </resources>

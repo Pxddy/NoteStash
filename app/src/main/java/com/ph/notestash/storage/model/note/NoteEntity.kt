@@ -1,4 +1,4 @@
-package com.ph.notestash.storage.note
+package com.ph.notestash.storage.model.note
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

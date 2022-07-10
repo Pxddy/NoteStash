@@ -1,9 +1,8 @@
-package com.ph.notestash.storage
+package com.ph.notestash.storage.database
 
 import android.content.Context
 import androidx.room.Room
-import com.ph.notestash.storage.database.AppDatabase
-import com.ph.notestash.storage.note.NoteDao
+import com.ph.notestash.storage.database.dao.NoteDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +12,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object StorageModule {
+object DatabaseModule {
 
     @Singleton
     @Provides

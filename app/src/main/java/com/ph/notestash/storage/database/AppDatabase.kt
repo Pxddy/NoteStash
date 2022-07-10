@@ -4,8 +4,8 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.ph.notestash.storage.database.converter.TimeConverter
-import com.ph.notestash.storage.note.NoteDao
-import com.ph.notestash.storage.note.NoteEntity
+import com.ph.notestash.storage.database.dao.NoteDao
+import com.ph.notestash.storage.model.note.NoteEntity
 
 @Database(
     entities = [

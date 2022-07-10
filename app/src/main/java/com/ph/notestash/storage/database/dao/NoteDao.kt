@@ -1,6 +1,7 @@
-package com.ph.notestash.storage.note
+package com.ph.notestash.storage.database.dao
 
 import androidx.room.*
+import com.ph.notestash.storage.model.note.NoteEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 
