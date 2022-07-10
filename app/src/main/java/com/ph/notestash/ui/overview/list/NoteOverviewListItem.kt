@@ -3,9 +3,10 @@ package com.ph.notestash.ui.overview.list
 import com.ph.notestash.common.recyclerview.StableIdItem
 
 data class NoteOverviewListItem(
+    val id: String,
     val title: String,
     val content: String,
-    val id: String,
+    val date: String,
     private val onClick: (id: String) -> Unit,
     private val onSwiped: (id: String) -> Unit
 ) : StableIdItem {

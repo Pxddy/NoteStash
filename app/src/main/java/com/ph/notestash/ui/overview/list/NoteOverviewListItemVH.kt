@@ -15,6 +15,7 @@ class NoteOverviewListItemVH(
 
         title.text = item.title
         content.text = item.content
+        date.text = item.date
 
         root.setOnClickListener { item.onclick() }
     }

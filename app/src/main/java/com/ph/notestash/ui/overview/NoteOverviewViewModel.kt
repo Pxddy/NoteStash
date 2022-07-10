@@ -3,7 +3,9 @@ package com.ph.notestash.ui.overview
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ph.notestash.common.coroutines.dispatcher.DispatcherProvider
+import com.ph.notestash.common.time.toLongDateFormat
 import com.ph.notestash.data.model.note.Note
+import com.ph.notestash.data.model.sort.SortNoteBy
 import com.ph.notestash.data.repository.NoteRepository
 import com.ph.notestash.ui.overview.list.NoteOverviewListItem
 import com.ph.notestash.data.repository.NoteSortingPreferencesRepository
@@ -28,8 +30,10 @@ class NoteOverviewViewModel @Inject constructor(
 
     val uiState: StateFlow<NoteOverviewUiState> = noteSortingPreferencesRepository
         .noteSortingPreferences
-        .flatMapLatest { noteRepository.allNotes(sortedBy = it.sortedBy, sortOrder = it.sortOrder) }
-        .map { it.toNoteOverviewUiState() }
+        .flatMapLatest { sortPrefs ->
+            noteRepository.allNotes(sortedBy = sortPrefs.sortedBy, sortOrder = sortPrefs.sortOrder)
+                .map { it.toNoteOverviewUiState(sortPrefs.sortedBy) }
+        }
         .catch {
             Timber.e(it, "Failed to load notes")
             emit(NoteOverviewUiState.Failure)
@@ -75,17 +79,21 @@ class NoteOverviewViewModel @Inject constructor(
             }
     }
 
-    private fun List<Note>.toNoteOverviewUiState(): NoteOverviewUiState {
+    private fun List<Note>.toNoteOverviewUiState(sortedNoteBy: SortNoteBy): NoteOverviewUiState {
         return NoteOverviewUiState.Success(
-            notes = map { it.toNoteOverviewListItem() }
+            notes = map { it.toNoteOverviewListItem(sortedNoteBy) }
         )
     }
 
-    private fun Note.toNoteOverviewListItem() = NoteOverviewListItem(
-        title = title,
-        content = content,
-        id = id,
-        onClick = this@NoteOverviewViewModel::navigateToEditNote,
-        onSwiped = this@NoteOverviewViewModel::deleteNote
-    )
+    private fun Note.toNoteOverviewListItem(sortedNoteBy: SortNoteBy): NoteOverviewListItem {
+        val date = if (sortedNoteBy == SortNoteBy.ModifiedAt) modifiedAt else createdAt
+        return NoteOverviewListItem(
+            id = id,
+            title = title,
+            content = content,
+            date = date.toLongDateFormat(),
+            onClick = this@NoteOverviewViewModel::navigateToEditNote,
+            onSwiped = this@NoteOverviewViewModel::deleteNote
+        )
+    }
 }
