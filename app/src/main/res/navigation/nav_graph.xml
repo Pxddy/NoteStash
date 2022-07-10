@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/noteOverviewFragment"
-        android:name="com.ph.notestash.note.ui.overview.NoteOverviewFragment"
+        android:name="com.ph.notestash.ui.overview.NoteOverviewFragment"
         android:label="fragment_note_overview"
         tools:layout="@layout/fragment_note_overview">
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/noteEditFragment"
-        android:name="com.ph.notestash.note.ui.edit.NoteEditFragment"
+        android:name="com.ph.notestash.ui.edit.NoteEditFragment"
         android:label="fragment_note_edit"
         tools:layout="@layout/fragment_note_edit">
         <argument
@@ -30,6 +30,7 @@
     </fragment>
     <dialog
         android:id="@+id/noteOverviewSortDialogFragment"
-        android:name="com.ph.notestash.note.ui.overview.dialog.NoteOverviewSortDialogFragment"
-        android:label="NoteOverviewSortDialogFragment" />
+        android:name="com.ph.notestash.ui.overview.dialog.NoteOverviewSortDialogFragment"
+        android:label="NoteOverviewSortDialogFragment"
+        tools:layout="@layout/fragment_note_overview_sort_dialog"/>
 </navigation>
