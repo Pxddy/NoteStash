@@ -32,5 +32,5 @@
         android:id="@+id/noteOverviewSortDialogFragment"
         android:name="com.ph.notestash.ui.overview.dialog.NoteOverviewSortDialogFragment"
         android:label="NoteOverviewSortDialogFragment"
-        tools:layout="@layout/fragment_note_overview_sort_dialog"/>
+        tools:layout="@layout/fragment_note_overview_sort_dialog" />
 </navigation>

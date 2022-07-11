@@ -9,19 +9,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
 import com.ph.notestash.R
 import com.ph.notestash.common.fragment.popBackStack
 import com.ph.notestash.common.viewbinding.viewBinding
 import com.ph.notestash.databinding.FragmentNoteEditBinding
-import com.ph.notestash.data.model.note.MutableNote
+import com.ph.notestash.ui.edit.dialog.NoteEditDeletionConfirmationDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import kotlin.time.Duration.Companion.milliseconds
 
 @AndroidEntryPoint
 class NoteEditFragment : Fragment(R.layout.fragment_note_edit) {
@@ -37,7 +36,7 @@ class NoteEditFragment : Fragment(R.layout.fragment_note_edit) {
     private fun bindViewModel() = with(binding) {
         Timber.d("bindViewModel()")
 
-        toolbar.setNavigationOnClickListener { viewModel.goBack() }
+        toolbar.bindViewModel()
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -49,9 +48,13 @@ class NoteEditFragment : Fragment(R.layout.fragment_note_edit) {
                     .onEach { handleEvent(event = it) }
                     .launchIn(this)
 
-                title.updateNote(scope = this) { title = it }
+                title.afterTextChangedFlow()
+                    .onEach { viewModel.updateTitle(newTitle = it) }
+                    .launchIn(this)
 
-                content.updateNote(scope = this) { content = it }
+                content.afterTextChangedFlow()
+                    .onEach { viewModel.updateContent(newContent = it) }
+                    .launchIn(this)
             }
         }
     }
@@ -75,17 +78,22 @@ class NoteEditFragment : Fragment(R.layout.fragment_note_edit) {
         Timber.d("handleEvent(event=%s)", event)
         when (event) {
             NoteEditEvent.NavigateBack -> popBackStack()
+            NoteEditEvent.ShowDeletionConfirmationDialog -> {
+                NoteEditDeletionConfirmationDialogFragment.newInstance().show(
+                    childFragmentManager,
+                    NoteEditDeletionConfirmationDialogFragment.TAG
+                )
+            }
         }
     }
 
-    private fun TextInputEditText.updateNote(
-        scope: CoroutineScope,
-        update: MutableNote.(String) -> Unit
-    ) = afterTextChangedFlow()
-        .debounce(300.milliseconds)
-        .distinctUntilChanged()
-        .onEach { viewModel.updateNote { update(it) } }
-        .launchIn(scope)
+    private fun MaterialToolbar.bindViewModel() = with(viewModel) {
+        setNavigationOnClickListener { goBack() }
+        setOnMenuItemClickListener {
+            showDeletionConfirmationDialog()
+            true
+        }
+    }
 }
 
 private fun TextInputEditText.afterTextChangedFlow() = callbackFlow {

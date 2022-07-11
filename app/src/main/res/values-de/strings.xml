@@ -10,6 +10,12 @@
     <string name="fragment_note_edit_hint_title">Titel</string>
     <string name="fragment_note_edit_hint_content">Notiz</string>
 
+    <!-- NoteEditDeletionConfirmationDialogFragment -->
+    <string name="fragment_note_edit_deletion_confirmation_dialog_title">Notiz löschen?</string>
+    <string name="fragment_note_edit_deletion_confirmation_dialog_msg">Bist du sicher, dass du diese Notiz löschen willst?</string>
+    <string name="fragment_note_edit_deletion_confirmation_dialog_positive_button_text">Löschen</string>
+    <string name="fragment_note_edit_deletion_confirmation_dialog_negative_button_text">@android:string/cancel</string>
+
     <!-- NoteOverviewFragment -->
     <string name="fragment_note_overview_empty_list_info">Noch keine Notizen vorhanden</string>
     <string name="fragment_note_overview_button_add_note_description">Notiz hinzufügen</string>
@@ -19,7 +25,10 @@
     <string name="fragment_note_overview_restore_retry_action_text">Erneut versuchen</string>
 
     <!-- NoteOverviewMenu -->
-    <string name="menu_note_overview_item_sort">Sortierung</string>
+    <string name="menu_note_overview_item_sort">Sortieren</string>
+
+    <!-- NoteEditMenu -->
+    <string name="menu_note_edit_item_delete">Löschen</string>
 
     <!-- NoteOverviewSortDialogFragment -->
     <string name="fragment_note_overview_sort_dialog_title_sort_by">Sortieren nach</string>

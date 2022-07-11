@@ -11,6 +11,12 @@
     <string name="fragment_note_edit_hint_title">Title</string>
     <string name="fragment_note_edit_hint_content">Note</string>
 
+    <!-- NoteEditDeletionConfirmationDialogFragment -->
+    <string name="fragment_note_edit_deletion_confirmation_dialog_title">Delete Note?</string>
+    <string name="fragment_note_edit_deletion_confirmation_dialog_msg">Are you sure you want to delete this note?</string>
+    <string name="fragment_note_edit_deletion_confirmation_dialog_positive_button_text">Delete</string>
+    <string name="fragment_note_edit_deletion_confirmation_dialog_negative_button_text">@android:string/cancel</string>
+
     <!-- NoteOverviewFragment -->
     <string name="fragment_note_overview_empty_list_info">No notes available yet</string>
     <string name="fragment_note_overview_button_add_note_description">Add note</string>
@@ -21,6 +27,9 @@
 
     <!-- NoteOverviewMenu -->
     <string name="menu_note_overview_item_sort">Sort</string>
+
+    <!-- NoteEditMenu -->
+    <string name="menu_note_edit_item_delete">Delete</string>
 
     <!-- NoteOverviewSortDialogFragment -->
     <string name="fragment_note_overview_sort_dialog_title_sort_by">Sort by</string>

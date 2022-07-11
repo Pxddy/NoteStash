@@ -13,6 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_note_edit_toolbar"
         app:navigationIcon="?attr/homeAsUpIndicator" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -29,7 +30,7 @@
             android:background="@android:color/transparent"
             android:hint="@string/fragment_note_edit_hint_title"
             android:imeOptions="flagNoFullscreen"
-            android:inputType="text"
+            android:inputType="text|textCapSentences"
             android:textAppearance="@style/TextAppearance.Material3.TitleLarge" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -49,7 +50,7 @@
             android:gravity="top"
             android:hint="@string/fragment_note_edit_hint_content"
             android:imeOptions="flagNoFullscreen"
-            android:inputType="textMultiLine"
+            android:inputType="textMultiLine|textCapSentences"
             android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
     </com.google.android.material.textfield.TextInputLayout>
