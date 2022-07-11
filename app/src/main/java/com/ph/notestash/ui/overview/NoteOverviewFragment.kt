@@ -29,7 +29,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
 
-    @Inject lateinit var dispatcherProvider: DispatcherProvider
+    @Inject
+    lateinit var dispatcherProvider: DispatcherProvider
     private val binding by viewBinding(FragmentNoteOverviewBinding::bind)
     private val viewModel: NoteOverviewViewModel by viewModels()
 
@@ -56,16 +57,17 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
 
                 adapter.loadStateFlow
                     .onEach { loadState ->
-
-                        Timber.d("refresh=%s", loadState.refresh)
-
-
                         val refresh = loadState.refresh
-                        loadingView.root.isVisible = refresh is LoadState.Loading
-                        noteList.isVisible = refresh is LoadState.NotLoading
+                        val isLoading = refresh is LoadState.Loading
+                        val isNotLoading = refresh is LoadState.NotLoading
+                        val isError = refresh is LoadState.Error
+                        val isEmpty = adapter.itemCount == 0
 
-                        val isError = refresh is LoadState.Error && adapter.itemCount == 0
-                        errorView.root.isVisible = isError
+                        loadingView.root.isVisible = isLoading && isEmpty
+
+                        emptyListView.isVisible = isNotLoading && isEmpty
+
+                        errorView.root.isVisible = isError && isEmpty
                     }
                     .launchIn(this)
 
