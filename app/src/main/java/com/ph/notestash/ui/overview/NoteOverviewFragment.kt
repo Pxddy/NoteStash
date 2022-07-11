@@ -8,9 +8,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.snackbar.Snackbar
 import com.ph.notestash.R
+import com.ph.notestash.common.coroutines.dispatcher.DispatcherProvider
+import com.ph.notestash.common.coroutines.flow.collectLatestIn
 import com.ph.notestash.common.fragment.navigateTo
 import com.ph.notestash.common.recyclerview.swipe.SimpleSwipeCallback
 import com.ph.notestash.common.viewbinding.viewBinding
@@ -21,10 +24,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
 
+    @Inject lateinit var dispatcherProvider: DispatcherProvider
     private val binding by viewBinding(FragmentNoteOverviewBinding::bind)
     private val viewModel: NoteOverviewViewModel by viewModels()
 
@@ -37,7 +42,7 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
     private fun bindViewModel() = with(binding) {
         Timber.d("bindViewModel()")
 
-        val adapter = NoteOverviewListAdapter()
+        val adapter = NoteOverviewListAdapter(dispatcherProvider)
         noteList.adapter = adapter
 
         addNoteButton.setOnClickListener { viewModel.navigateToAddNote() }
@@ -46,31 +51,28 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState
-                    .onEach { handleUiState(uiState = it, adapter = adapter) }
+                viewModel.pagingData
+                    .collectLatestIn(this) { adapter.submitData(it) }
+
+                adapter.loadStateFlow
+                    .onEach { loadState ->
+
+                        Timber.d("refresh=%s", loadState.refresh)
+
+
+                        val refresh = loadState.refresh
+                        loadingView.root.isVisible = refresh is LoadState.Loading
+                        noteList.isVisible = refresh is LoadState.NotLoading
+
+                        val isError = refresh is LoadState.Error && adapter.itemCount == 0
+                        errorView.root.isVisible = isError
+                    }
                     .launchIn(this)
 
                 viewModel.events
                     .onEach { handleEvent(event = it) }
                     .launchIn(this)
             }
-        }
-    }
-
-    private fun handleUiState(
-        uiState: NoteOverviewUiState,
-        adapter: NoteOverviewListAdapter
-    ) = with(binding) {
-        loadingView.root.isVisible = uiState is NoteOverviewUiState.Loading
-        errorView.root.isVisible = uiState is NoteOverviewUiState.Failure
-        noteList.isVisible = uiState is NoteOverviewUiState.Success
-
-        when (uiState) {
-            is NoteOverviewUiState.Success -> {
-                adapter.submitList(uiState.notes)
-            }
-            NoteOverviewUiState.Failure,
-            NoteOverviewUiState.Loading -> Unit
         }
     }
 

@@ -1,24 +1,24 @@
 package com.ph.notestash.common.coroutines.dispatcher
 
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.CoroutineContext
 
 @Singleton
 class DefaultDispatcherProvider @Inject constructor() : DispatcherProvider {
-    override val Default: CoroutineContext
+    override val Default: CoroutineDispatcher
         get() = Dispatchers.Default
 
-    override val Main: CoroutineContext
+    override val Main: CoroutineDispatcher
         get() = Dispatchers.Main
 
-    override val MainImmediate: CoroutineContext
+    override val MainImmediate: CoroutineDispatcher
         get() = Dispatchers.Main.immediate
 
-    override val IO: CoroutineContext
+    override val IO: CoroutineDispatcher
         get() = Dispatchers.IO
 
-    override val Unconfined: CoroutineContext
+    override val Unconfined: CoroutineDispatcher
         get() = Dispatchers.Unconfined
 }

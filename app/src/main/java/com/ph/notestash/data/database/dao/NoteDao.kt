@@ -1,5 +1,6 @@
 package com.ph.notestash.data.database.dao
 
+import androidx.paging.PagingSource
 import androidx.room.*
 import com.ph.notestash.data.model.note.NoteEntity
 import kotlinx.coroutines.flow.Flow
@@ -9,22 +10,22 @@ import kotlinx.coroutines.flow.firstOrNull
 interface NoteDao {
 
     @Query("SELECT * FROM notes ORDER BY title COLLATE NOCASE ASC")
-    fun allNotesOrderByTitleAsc(): Flow<List<NoteEntity>>
+    fun allNotesOrderByTitleAsc(): PagingSource<Int, NoteEntity>
 
     @Query("SELECT * FROM notes ORDER BY title COLLATE NOCASE DESC")
-    fun allNotesOrderByTitleDesc(): Flow<List<NoteEntity>>
+    fun allNotesOrderByTitleDesc(): PagingSource<Int, NoteEntity>
 
     @Query("SELECT * FROM notes ORDER BY datetime(created_at) ASC")
-    fun allNotesOrderByCreatedAtAsc(): Flow<List<NoteEntity>>
+    fun allNotesOrderByCreatedAtAsc(): PagingSource<Int, NoteEntity>
 
     @Query("SELECT * FROM notes ORDER BY datetime(created_at) DESC")
-    fun allNotesOrderByCreatedAtDesc(): Flow<List<NoteEntity>>
+    fun allNotesOrderByCreatedAtDesc(): PagingSource<Int, NoteEntity>
 
     @Query("SELECT * FROM notes ORDER BY datetime(modified_at) ASC")
-    fun allNotesOrderByModifiedAtAsc(): Flow<List<NoteEntity>>
+    fun allNotesOrderByModifiedAtAsc(): PagingSource<Int, NoteEntity>
 
     @Query("SELECT * FROM notes ORDER BY datetime(modified_at) DESC")
-    fun allNotesOrderByModifiedAtDesc(): Flow<List<NoteEntity>>
+    fun allNotesOrderByModifiedAtDesc(): PagingSource<Int, NoteEntity>
 
     @Query("SELECT * FROM notes WHERE id = :id")
     fun noteForId(id: String): Flow<NoteEntity?>

@@ -119,6 +119,11 @@ dependencies {
     implementation("androidx.room:room-runtime:$room")
     implementation("androidx.room:room-ktx:$room")
     kapt("androidx.room:room-compiler:$room")
+    implementation("androidx.room:room-paging:$room")
+
+    // Paging
+    val paging = "3.1.1"
+    implementation("androidx.paging:paging-runtime:$paging")
 
     // Recyclerview
     implementation("androidx.recyclerview:recyclerview:1.2.1")

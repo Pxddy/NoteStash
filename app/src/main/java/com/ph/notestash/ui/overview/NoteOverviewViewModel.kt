@@ -2,6 +2,7 @@ package com.ph.notestash.ui.overview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.*
 import com.ph.notestash.common.coroutines.dispatcher.DispatcherProvider
 import com.ph.notestash.common.time.toLongDateFormat
 import com.ph.notestash.data.model.note.Note
@@ -12,11 +13,11 @@ import com.ph.notestash.data.repository.NoteSortingPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class NoteOverviewViewModel @Inject constructor(
@@ -28,21 +29,12 @@ class NoteOverviewViewModel @Inject constructor(
     private val eventChannel = Channel<NoteOverviewEvent>(Channel.BUFFERED)
     val events = eventChannel.receiveAsFlow()
 
-    val uiState: StateFlow<NoteOverviewUiState> = noteSortingPreferencesRepository
-        .noteSortingPreferences
+    val pagingData = noteSortingPreferencesRepository.noteSortingPreferences
         .flatMapLatest { sortPrefs ->
             noteRepository.allNotes(sortedBy = sortPrefs.sortedBy, sortOrder = sortPrefs.sortOrder)
-                .map { it.toNoteOverviewUiState(sortPrefs.sortedBy) }
+                .map { data -> data.map { it.toNoteOverviewListItem(sortPrefs.sortedBy) } }
         }
-        .catch {
-            Timber.e(it, "Failed to load notes")
-            emit(NoteOverviewUiState.Failure)
-        }
-        .stateIn(
-            scope = viewModelScope + dispatcherProvider.Default,
-            started = SharingStarted.WhileSubscribed(5.seconds),
-            initialValue = NoteOverviewUiState.Loading
-        )
+        .cachedIn(viewModelScope + dispatcherProvider.Default)
 
     fun navigateToAddNote() = viewModelScope.launch {
         Timber.d("navigateToAddNote()")
@@ -77,12 +69,6 @@ class NoteOverviewViewModel @Inject constructor(
                 Timber.d("Successfully deleted note=%s", note)
                 eventChannel.send(NoteOverviewEvent.RestoreNote(note))
             }
-    }
-
-    private fun List<Note>.toNoteOverviewUiState(sortedNoteBy: SortNoteBy): NoteOverviewUiState {
-        return NoteOverviewUiState.Success(
-            notes = map { it.toNoteOverviewListItem(sortedNoteBy) }
-        )
     }
 
     private fun Note.toNoteOverviewListItem(sortedNoteBy: SortNoteBy): NoteOverviewListItem {

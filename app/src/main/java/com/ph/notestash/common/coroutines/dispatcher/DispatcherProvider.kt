@@ -1,12 +1,12 @@
 package com.ph.notestash.common.coroutines.dispatcher
 
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineDispatcher
 
 @Suppress("PropertyName")
 interface DispatcherProvider {
-    val Default: CoroutineContext
-    val Main: CoroutineContext
-    val MainImmediate: CoroutineContext
-    val IO: CoroutineContext
-    val Unconfined: CoroutineContext
+    val Default: CoroutineDispatcher
+    val Main: CoroutineDispatcher
+    val MainImmediate: CoroutineDispatcher
+    val IO: CoroutineDispatcher
+    val Unconfined: CoroutineDispatcher
 }

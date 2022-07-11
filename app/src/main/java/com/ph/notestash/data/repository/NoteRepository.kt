@@ -1,14 +1,14 @@
 package com.ph.notestash.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.ph.notestash.common.coroutines.dispatcher.DispatcherProvider
 import com.ph.notestash.common.coroutines.scope.AppScope
 import com.ph.notestash.common.result.checkCancellation
 import com.ph.notestash.common.time.TimeProvider
-import com.ph.notestash.data.model.note.Note
-import com.ph.notestash.data.model.note.UpdateNoteAction
-import com.ph.notestash.data.model.note.toMutableNote
 import com.ph.notestash.data.database.dao.NoteDao
-import com.ph.notestash.data.model.note.toNoteEntity
+import com.ph.notestash.data.model.note.*
 import com.ph.notestash.data.model.sort.SortNoteBy
 import com.ph.notestash.data.model.sort.SortOrder
 import dagger.Lazy
@@ -33,15 +33,12 @@ class NoteRepository @Inject constructor(
     // Makes it possible to instantiate the database and dao in a background thread
     private val noteDao get() = noteDaoLazy.get()
 
-    fun allNotes(sortedBy: SortNoteBy, sortOrder: SortOrder) = flow {
+    fun allNotes(sortedBy: SortNoteBy, sortOrder: SortOrder): Flow<PagingData<out Note>> = flow {
         Timber.d("allNotes(sortedBy=%s, sortOrder=%s)", sortedBy, sortOrder)
-        val allNotes = with(noteDao) {
-            when (sortOrder) {
-                SortOrder.Ascending -> allNotesAscending(sortedBy)
-                SortOrder.Descending -> allNotesDescending(sortedBy)
-            }
-        }
-        emitAll(allNotes)
+        val pager = Pager(config = (PagingConfig(pageSize = 50, enablePlaceholders = false)))
+        { noteDao.allNotes(sortedBy, sortOrder) }
+
+        emitAll(pager.flow)
     }
 
     fun noteForId(id: String): Flow<Note?> = flow {
@@ -77,6 +74,12 @@ class NoteRepository @Inject constructor(
         val deferred = appScope.async(dispatcherProvider.IO) { action() }
         deferred.await()
     }.checkCancellation()
+
+
+    private fun NoteDao.allNotes(sortedBy: SortNoteBy, sortOrder: SortOrder) = when (sortOrder) {
+        SortOrder.Ascending -> allNotesAscending(sortedBy)
+        SortOrder.Descending -> allNotesDescending(sortedBy)
+    }
 
     private fun NoteDao.allNotesAscending(sortedBy: SortNoteBy) = when (sortedBy) {
         SortNoteBy.Title -> allNotesOrderByTitleAsc()
