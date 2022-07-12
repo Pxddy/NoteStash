@@ -35,7 +35,7 @@ class NoteRepository @Inject constructor(
 
     fun allNotes(sortedBy: SortNoteBy, sortOrder: SortOrder): Flow<PagingData<out Note>> = flow {
         Timber.d("allNotes(sortedBy=%s, sortOrder=%s)", sortedBy, sortOrder)
-        val pager = Pager(config = (PagingConfig(pageSize = 50, enablePlaceholders = false)))
+        val pager = Pager(config = (PagingConfig(pageSize = 50, enablePlaceholders = true)))
         { noteDao.allNotes(sortedBy, sortOrder) }
 
         emitAll(pager.flow)

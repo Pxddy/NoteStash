@@ -25,8 +25,11 @@ class SimpleSwipeCallback(
     override fun getMovementFlags(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
-    ): Int = when (viewHolder) {
-        !is Swipeable -> ItemTouchHelper.ACTION_STATE_IDLE
-        else -> super.getMovementFlags(recyclerView, viewHolder)
+    ): Int = when {
+        viewHolder is Swipeable && viewHolder.canSwipe -> super.getMovementFlags(
+            recyclerView,
+            viewHolder
+        )
+        else -> ItemTouchHelper.ACTION_STATE_IDLE
     }
 }

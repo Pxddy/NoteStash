@@ -5,8 +5,6 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.ph.notestash.common.coroutines.dispatcher.DispatcherProvider
-import com.ph.notestash.common.recyclerview.adapter.GenericListAdapter
-import com.ph.notestash.databinding.FragmentNoteOverviewListItemBinding
 
 class NoteOverviewListAdapter(dispatcherProvider: DispatcherProvider) :
     PagingDataAdapter<NoteOverviewListItem, NoteOverviewListItemVH>(
@@ -15,22 +13,17 @@ class NoteOverviewListAdapter(dispatcherProvider: DispatcherProvider) :
         workerDispatcher = dispatcherProvider.Default
     ) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteOverviewListItemVH {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = FragmentNoteOverviewListItemBinding.inflate(
-            inflater,
-            parent,
-            false
-        )
-
-        return NoteOverviewListItemVH(binding)
-    }
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): NoteOverviewListItemVH = NoteOverviewListItemVH(
+        layoutInflater = LayoutInflater.from(parent.context),
+        parent = parent
+    )
 
     override fun onBindViewHolder(holder: NoteOverviewListItemVH, position: Int) {
         val item = getItem(position)
-        if (item != null) {
-            holder.bind(item)
-        }
+        holder.bind(item)
     }
 }
 
