@@ -64,6 +64,19 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    testOptions {
+        animationsDisabled = true
+
+        unitTests {
+            isReturnDefaultValues = true
+            isIncludeAndroidResources = true
+
+            all {
+                it.useJUnitPlatform()
+            }
+        }
+    }
 }
 
 dependencies {
@@ -83,6 +96,22 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+
+    // MockK
+    testImplementation("io.mockk:mockk:1.12.4")
+
+    // Junit5
+    val jupiter = "5.8.2"
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$jupiter")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jupiter")
+
+    // KoTest
+    val kotest = "5.3.2"
+    testImplementation("io.kotest:kotest-runner-junit5:$kotest")
+    testImplementation("io.kotest:kotest-assertions-core:$kotest")
+
+    // Turbine
+    testImplementation("app.cash.turbine:turbine:0.8.0")
 
     // Activity
     implementation("androidx.activity:activity-ktx:1.5.0")
@@ -113,6 +142,7 @@ dependencies {
     val coroutines = "1.6.3"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines")
 
     // Room
     val room = "2.4.2"
