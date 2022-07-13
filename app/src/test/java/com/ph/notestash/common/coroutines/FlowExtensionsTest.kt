@@ -10,11 +10,12 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.seconds
 
-internal class FlowExtensions {
+internal class FlowExtensionsTest {
 
     @Test
     fun `share latest`() = runTest {
@@ -56,16 +57,22 @@ internal class FlowExtensions {
 
     @Test
     fun `collect latest`() = runTest {
-        var temp = 0
+        val beforeDelay = mutableListOf<Int>()
+        val afterDelay = mutableListOf<Int>()
 
         flow {
             emit(0)
             emit(1)
             emit(2)
         }.collectLatestIn(this) {
-            it shouldBe temp++
+            beforeDelay += it
             delay(1.seconds)
-            it shouldBe 2
+            afterDelay += it
         }
+
+        advanceUntilIdle()
+
+        beforeDelay shouldBe listOf(0, 1, 2)
+        afterDelay shouldBe listOf(2)
     }
 }
