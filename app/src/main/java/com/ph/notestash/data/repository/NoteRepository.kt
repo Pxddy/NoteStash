@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber
-import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -58,14 +57,13 @@ class NoteRepository @Inject constructor(
 
     suspend fun updateNote(
         id: String,
-        modifiedAt: Instant = timeProvider.now,
         update: UpdateNoteAction
     ) = executeAndAwait {
         Timber.d("updateNote(id=%s)", id)
         noteDao.updateNote(id = id) { note ->
             note.toMutableNote()
+                .apply { this.modifiedAt = timeProvider.now }
                 .apply(update)
-                .apply { this.modifiedAt = modifiedAt }
                 .toNoteEntity()
         }
     }

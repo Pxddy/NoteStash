@@ -3,9 +3,7 @@ package com.ph.notestash.common.coroutines.dispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class DefaultDispatcherProvider @Inject constructor() : DispatcherProvider {
     override val Default: CoroutineDispatcher
         get() = Dispatchers.Default

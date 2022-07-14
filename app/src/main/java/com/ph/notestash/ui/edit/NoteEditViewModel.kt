@@ -1,11 +1,12 @@
 package com.ph.notestash.ui.edit
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ph.notestash.common.coroutines.dispatcher.DispatcherProvider
-import com.ph.notestash.common.result.checkCancellation
 import com.ph.notestash.common.time.TimeProvider
+import com.ph.notestash.common.uuid.UUIDProvider
 import com.ph.notestash.data.model.note.DefaultNote
 import com.ph.notestash.data.model.note.Note
 import com.ph.notestash.data.repository.NoteRepository
@@ -15,7 +16,6 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
@@ -25,7 +25,8 @@ class NoteEditViewModel @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val savedStateHandle: SavedStateHandle,
     private val noteRepository: NoteRepository,
-    private val timeProvider: TimeProvider
+    private val timeProvider: TimeProvider,
+    private val uuidProvider: UUIDProvider
 ) : ViewModel() {
 
     private val internalData = MutableStateFlow(InternalData())
@@ -89,7 +90,7 @@ class NoteEditViewModel @Inject constructor(
         Timber.d("createNewNote()")
         val now = timeProvider.now
         return DefaultNote(
-            id = UUID.randomUUID().toString(),
+            id = uuidProvider.uuid.toString(),
             title = "",
             content = "",
             createdAt = now,
@@ -115,7 +116,6 @@ class NoteEditViewModel @Inject constructor(
                     content = data.content
                 }
                     .onFailure { Timber.e(it, "Failed to update note") }
-                    .checkCancellation()
             }
             .launchIn(viewModelScope + dispatcherProvider.Default)
     }
@@ -126,4 +126,5 @@ private data class InternalData(
     val content: String = ""
 )
 
-private const val KEY_NOTE_ID = "key_note_id"
+@VisibleForTesting
+const val KEY_NOTE_ID = "key_note_id"

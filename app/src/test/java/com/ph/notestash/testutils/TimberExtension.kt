@@ -3,7 +3,6 @@ package com.ph.notestash.testutils
 import android.util.Log
 import org.junit.jupiter.api.extension.AfterAllCallback
 import org.junit.jupiter.api.extension.BeforeAllCallback
-import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.api.extension.ExtensionContext
 import timber.log.Timber
 import java.time.LocalDateTime
@@ -39,7 +38,3 @@ internal class TimberExtension : BeforeAllCallback, AfterAllCallback {
             else -> toString()
         }
 }
-
-@ExtendWith(TimberExtension::class)
-@Retention(AnnotationRetention.RUNTIME)
-internal annotation class TimberLog
