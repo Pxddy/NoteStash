@@ -30,6 +30,7 @@ class NoteEditViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val internalData = MutableStateFlow(InternalData())
+    private val id: String by lazy { getOrCreateId() }
 
     init {
         bindDatabaseUpdate()
@@ -82,9 +83,12 @@ class NoteEditViewModel @Inject constructor(
         content = content
     )
 
-    private val id: String
-        get() = NoteEditFragmentArgs.fromSavedStateHandle(savedStateHandle).noteId
-            ?: savedStateHandle.get<String>(KEY_NOTE_ID) ?: createNewNote().id
+    private fun getOrCreateId(): String {
+        Timber.d("getOrCreateId()")
+        return NoteEditFragmentArgs.fromSavedStateHandle(savedStateHandle).noteId
+            ?: savedStateHandle.get<String>(KEY_NOTE_ID)
+            ?: createNewNote().id
+    }
 
     private fun createNewNote(): Note {
         Timber.d("createNewNote()")
