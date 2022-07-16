@@ -6,10 +6,7 @@ import com.ph.notestash.common.time.TimeProvider
 import com.ph.notestash.common.time.TimeTestData
 import com.ph.notestash.common.uuid.UUIDProvider
 import com.ph.notestash.common.uuid.UUIDTestData
-import com.ph.notestash.data.model.note.DefaultNote
-import com.ph.notestash.data.model.note.Note
-import com.ph.notestash.data.model.note.UpdateNoteAction
-import com.ph.notestash.data.model.note.toMutableNote
+import com.ph.notestash.data.model.note.*
 import com.ph.notestash.data.repository.NoteRepository
 import com.ph.notestash.testutils.MainDispatcherExtension
 import com.ph.notestash.testutils.TestDispatcherProvider
@@ -29,14 +26,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(MainDispatcherExtension::class)
 internal class NoteEditViewModelTest {
 
-    private val defaultNote = DefaultNote(
-        id = UUIDTestData.uuidString1,
-        title = "",
-        content = "",
-        createdAt = TimeTestData.testInstant,
-        modifiedAt = TimeTestData.testInstant
-    )
-
+    private val defaultNote = NoteTestData.testDefaultNote
     private val noteFlow: MutableStateFlow<Note?> = MutableStateFlow(null)
 
     private val testDispatcherProvider = TestDispatcherProvider()

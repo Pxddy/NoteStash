@@ -72,13 +72,13 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
                     .launchIn(this)
 
                 viewModel.events
-                    .onEach { handleEvent(event = it) }
+                    .onEach { handleEvent(event = it, adapter) }
                     .launchIn(this)
             }
         }
     }
 
-    private fun handleEvent(event: NoteOverviewEvent) {
+    private fun handleEvent(event: NoteOverviewEvent, adapter: NoteOverviewListAdapter) {
         Timber.d("handleEvent(event=%s)", event)
         when (event) {
             is NoteOverviewEvent.NavigateToNoteEdit -> navigateTo(
@@ -87,6 +87,7 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
                 )
             )
             is NoteOverviewEvent.RestoreNote -> event.handle()
+            is NoteOverviewEvent.DeletionFailure -> adapter.notifyItemChanged(event.pos)
             NoteOverviewEvent.ShowSortingDialog -> navigateTo(
                 NoteOverviewFragmentDirections
                     .actionNoteOverviewFragmentToNoteOverviewSortDialogFragment()

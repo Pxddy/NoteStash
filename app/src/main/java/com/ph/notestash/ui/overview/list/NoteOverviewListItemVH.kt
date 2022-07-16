@@ -36,6 +36,6 @@ class NoteOverviewListItemVH(
         get() = item != null
 
     override fun onSwiped(direction: Int) {
-        item?.onSwiped()
+        item?.onSwiped(bindingAdapterPosition)
     }
 }

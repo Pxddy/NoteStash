@@ -10,6 +10,9 @@ class MutableNote(note: Note) : Note {
     override var modifiedAt: Instant = note.modifiedAt
 }
 
-fun Note.toMutableNote() = MutableNote(note = this)
+fun Note.toMutableNote() = when (this is MutableNote) {
+    true -> this
+    false -> MutableNote(note = this)
+}
 
 typealias UpdateNoteAction = MutableNote.() -> Unit

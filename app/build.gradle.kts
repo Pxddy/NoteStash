@@ -103,7 +103,8 @@ dependencies {
     // Junit5
     val jupiter = "5.8.2"
     testImplementation("org.junit.jupiter:junit-jupiter-api:$jupiter")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jupiter")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:$jupiter")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:$jupiter")
 
     // KoTest
     val kotest = "5.3.2"

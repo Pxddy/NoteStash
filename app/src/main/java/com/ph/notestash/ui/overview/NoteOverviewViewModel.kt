@@ -61,10 +61,13 @@ class NoteOverviewViewModel @Inject constructor(
         eventChannel.send(NoteOverviewEvent.NavigateToNoteEdit(id = id))
     }
 
-    private fun deleteNote(id: String) = viewModelScope.launch {
-        Timber.d("deleteNote(id=%s)", id)
+    private fun deleteNote(id: String, pos: Int) = viewModelScope.launch {
+        Timber.d("deleteNote(id=%s, pos=%d)", id, pos)
         noteRepository.deleteNote(id)
-            .onFailure { Timber.e(it, "Failed to delete note") }
+            .onFailure {
+                Timber.e(it, "Failed to delete note")
+                eventChannel.send(NoteOverviewEvent.DeletionFailure(pos))
+            }
             .onSuccess { note ->
                 Timber.d("Successfully deleted note=%s", note)
                 eventChannel.send(NoteOverviewEvent.RestoreNote(note))
