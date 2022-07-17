@@ -21,7 +21,6 @@ internal class TimberExtension : BeforeAllCallback, AfterAllCallback {
 
     override fun beforeAll(context: ExtensionContext?) {
         Timber.plant(printTree)
-        Timber.d("this=%s", context?.testClass?.get()?.name)
     }
 
     override fun afterAll(context: ExtensionContext?) {

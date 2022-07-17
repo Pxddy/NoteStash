@@ -1,7 +1,5 @@
 package com.ph.notestash.ui.overview.dialog
 
-import app.cash.turbine.FlowTurbine
-import app.cash.turbine.test
 import com.ph.notestash.data.model.sort.NoteSortingPreferences
 import com.ph.notestash.data.model.sort.SortNoteBy
 import com.ph.notestash.data.model.sort.SortOrder
@@ -13,10 +11,13 @@ import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import io.mockk.*
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 
 @ExtendWith(TimberExtension::class)
 @ExtendWith(MainDispatcherExtension::class)
@@ -45,36 +46,20 @@ internal class NoteOverviewSortDialogViewModelTest {
         )
     }
 
-    @Test
-    fun `check uiState mapping`() = runTest {
-        viewModel.uiState.test {
-            awaitItem() shouldBe NoteOverviewSortDialogUiState(
-                sortNoteBy = defaultNoteSortingPreferences.sortedBy,
-                sortOrder = defaultNoteSortingPreferences.sortOrder
-            )
-
-            checkUiState(SortNoteBy.Title, SortOrder.Ascending)
-            checkUiState(SortNoteBy.Title, SortOrder.Descending)
-
-            checkUiState(SortNoteBy.Title, SortOrder.Ascending)
-            checkUiState(SortNoteBy.CreatedAt, SortOrder.Ascending)
-            checkUiState(SortNoteBy.ModifiedAt, SortOrder.Descending)
-        }
+    @ParameterizedTest
+    @EnumSource(SortNoteBy::class)
+    fun `check ui state mapping for`(sortNoteBy: SortNoteBy) = runTest {
+        val newPrefs = defaultNoteSortingPreferences.copy(sortedBy = sortNoteBy)
+        noteSortingPreferencesFlow.value = newPrefs
+        viewModel.uiState.first() shouldBe newPrefs.toNoteOverviewSortDialogUiState()
     }
 
-    private suspend fun FlowTurbine<NoteOverviewSortDialogUiState>.checkUiState(
-        sortNoteBy: SortNoteBy,
-        sortOrder: SortOrder
-    ) {
-        noteSortingPreferencesFlow.value = NoteSortingPreferences(
-            sortedBy = sortNoteBy,
-            sortOrder = sortOrder
-        )
-
-        awaitItem() shouldBe NoteOverviewSortDialogUiState(
-            sortNoteBy = sortNoteBy,
-            sortOrder = sortOrder
-        )
+    @ParameterizedTest
+    @EnumSource(SortOrder::class)
+    fun `check ui state mapping for`(sortOrder: SortOrder) = runTest {
+        val newPrefs = defaultNoteSortingPreferences.copy(sortOrder = sortOrder)
+        noteSortingPreferencesFlow.value = newPrefs
+        viewModel.uiState.first() shouldBe newPrefs.toNoteOverviewSortDialogUiState()
     }
 
     @Test
@@ -130,3 +115,9 @@ internal class NoteOverviewSortDialogViewModelTest {
         }
     }
 }
+
+private fun NoteSortingPreferences.toNoteOverviewSortDialogUiState() =
+    NoteOverviewSortDialogUiState(
+        sortNoteBy = sortedBy,
+        sortOrder = sortOrder
+    )
