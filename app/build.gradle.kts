@@ -110,6 +110,7 @@ dependencies {
     val kotest = "5.3.2"
     testImplementation("io.kotest:kotest-runner-junit5:$kotest")
     testImplementation("io.kotest:kotest-assertions-core:$kotest")
+    androidTestImplementation("io.kotest:kotest-assertions-core:$kotest")
 
     // Turbine
     testImplementation("app.cash.turbine:turbine:0.8.0")
@@ -144,6 +145,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines")
 
     // Room
     val room = "2.4.2"
