@@ -1,10 +1,10 @@
 package com.ph.notestash.data.repository
 
+import com.ph.core.common.coroutines.dispatcher.TestDispatcherProvider
+import com.ph.core.data.datastore.InMemoryDataStore
 import com.ph.notestash.data.model.sort.SortNoteBy
 import com.ph.notestash.data.model.sort.SortOrder
 import com.ph.notestash.data.model.sort.SortTestData
-import com.ph.notestash.testutils.InMemoryDataStore
-import com.ph.notestash.testutils.TestDispatcherProvider
 import com.ph.notestash.testutils.TimberExtension
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first

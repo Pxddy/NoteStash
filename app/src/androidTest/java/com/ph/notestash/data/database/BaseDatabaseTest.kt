@@ -1,22 +1,22 @@
 package com.ph.notestash.data.database
 
-import android.content.Context
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
+import dagger.hilt.android.testing.HiltAndroidRule
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
+import javax.inject.Inject
 
 internal abstract class BaseDatabaseTest {
 
-    protected lateinit var db: AppDatabase
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var db: AppDatabase
 
     @Before
     fun setup() {
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        db = Room.inMemoryDatabaseBuilder(
-            context,
-            AppDatabase::class.java
-        ).build()
+        hiltRule.inject()
     }
 
     @After

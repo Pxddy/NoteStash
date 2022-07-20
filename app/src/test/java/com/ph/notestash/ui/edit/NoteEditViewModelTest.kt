@@ -2,6 +2,7 @@ package com.ph.notestash.ui.edit
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
+import com.ph.core.common.coroutines.dispatcher.TestDispatcherProvider
 import com.ph.notestash.common.time.TimeProvider
 import com.ph.notestash.common.time.TimeTestData
 import com.ph.notestash.common.uuid.UUIDProvider
@@ -9,7 +10,6 @@ import com.ph.notestash.common.uuid.UUIDTestData
 import com.ph.notestash.data.model.note.*
 import com.ph.notestash.data.repository.NoteRepository
 import com.ph.notestash.testutils.MainDispatcherExtension
-import com.ph.notestash.testutils.TestDispatcherProvider
 import com.ph.notestash.testutils.TimberExtension
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe

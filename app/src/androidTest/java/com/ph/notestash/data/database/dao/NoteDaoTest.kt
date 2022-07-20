@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteConstraintException
 import androidx.paging.PagingSource
 import com.ph.notestash.data.database.BaseDatabaseTest
 import com.ph.notestash.data.model.note.NoteEntity
+import dagger.hilt.android.testing.HiltAndroidTest
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
@@ -11,6 +12,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import java.time.Instant
 
+@HiltAndroidTest
 internal class NoteDaoTest : BaseDatabaseTest() {
 
     private val dao: NoteDao

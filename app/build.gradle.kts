@@ -1,9 +1,9 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
-    id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.android)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.androidx.navigation.safeargs)
 }
 
 android {
@@ -16,7 +16,7 @@ android {
         versionCode = 1
         versionName = "1.0.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.ph.core.NoteStashTestRunner"
     }
 
     buildTypes {
@@ -81,91 +81,66 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.4.2")
+    testImplementation(project(":core-testing"))
+    androidTestImplementation(project(":core-testing"))
+
+    androidTestImplementation(libs.bundles.androidx.test)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.kotest.assertions)
+    androidTestImplementation(libs.hilt.testing)
+    kaptAndroidTest(libs.hilt.compiler)
+
+    testImplementation(libs.bundles.jupiter)
+    testImplementation(libs.kotest.assertions)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
 
     // Material
-    implementation("com.google.android.material:material:1.6.1")
+    implementation(libs.material3)
 
     // Layouts
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
-
-
-    // Tests
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-
-    // MockK
-    testImplementation("io.mockk:mockk:1.12.4")
-
-    // Junit5
-    val jupiter = "5.8.2"
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$jupiter")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:$jupiter")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:$jupiter")
-
-    // KoTest
-    val kotest = "5.3.2"
-    testImplementation("io.kotest:kotest-runner-junit5:$kotest")
-    testImplementation("io.kotest:kotest-assertions-core:$kotest")
-    androidTestImplementation("io.kotest:kotest-assertions-core:$kotest")
-
-    // Turbine
-    testImplementation("app.cash.turbine:turbine:0.8.0")
+    implementation(libs.bundles.androidx.layout)
 
     // Activity
-    implementation("androidx.activity:activity-ktx:1.5.0")
+    implementation(libs.androidx.activity.ktx)
 
     // Fragment
-    implementation("androidx.fragment:fragment-ktx:1.5.0")
+    implementation(libs.androidx.fragment.ktx)
 
     // Lifecycle
-    val lifecycle = "2.5.0"
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle")
-    implementation("androidx.lifecycle:lifecycle-process:$lifecycle")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle")
+    implementation(libs.androidx.lifecycle.viewmodel)
 
     // Hilt
-    val hilt = "2.42"
-    implementation("com.google.dagger:hilt-android:$hilt")
-    kapt("com.google.dagger:hilt-compiler:$hilt")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
-    //
-    val nav = "2.5.0"
-    implementation("androidx.navigation:navigation-fragment-ktx:$nav")
-    implementation("androidx.navigation:navigation-ui-ktx:$nav")
+    // Navigation
+    implementation(libs.bundles.androidx.navigation)
 
     // Timber
-    implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation(libs.timber)
 
     // Coroutines
-    val coroutines = "1.6.3"
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines")
-    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines")
+    implementation(libs.bundles.kotlinx.coroutines)
 
     // Room
-    val room = "2.4.2"
-    implementation("androidx.room:room-runtime:$room")
-    implementation("androidx.room:room-ktx:$room")
-    kapt("androidx.room:room-compiler:$room")
-    implementation("androidx.room:room-paging:$room")
+    implementation(libs.bundles.androidx.room)
+    kapt(libs.androidx.room.compiler)
 
     // Paging
-    val paging = "3.1.1"
-    implementation("androidx.paging:paging-runtime:$paging")
+    implementation(libs.androidx.paging.runtime)
 
     // Recyclerview
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation(libs.androidx.recyclerview)
 
     // DataStore
-    implementation("androidx.datastore:datastore:1.0.0")
+    implementation(libs.androidx.dataStore.core)
 
     // Moshi
-    val moshi = "1.13.0"
-    implementation("com.squareup.moshi:moshi:$moshi")
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:$moshi")
+    implementation(libs.moshi.moshi)
+    kapt(libs.moshi.codegen)
 }

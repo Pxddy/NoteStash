@@ -5,6 +5,7 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import app.cash.turbine.test
+import com.ph.core.common.coroutines.dispatcher.TestDispatcherProvider
 import com.ph.notestash.common.time.TimeTestData
 import com.ph.notestash.common.time.toLongDateFormat
 import com.ph.notestash.data.model.note.NoteTestData
@@ -14,11 +15,9 @@ import com.ph.notestash.data.model.sort.SortTestData
 import com.ph.notestash.data.repository.NoteRepository
 import com.ph.notestash.data.repository.NoteSortingPreferencesRepository
 import com.ph.notestash.testutils.MainDispatcherExtension
-import com.ph.notestash.testutils.TestDispatcherProvider
 import com.ph.notestash.testutils.TimberExtension
 import com.ph.notestash.ui.overview.list.NoteOverviewListItem
 import io.kotest.assertions.asClue
-import io.kotest.matchers.equality.shouldBeEqualToIgnoringFields
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.*

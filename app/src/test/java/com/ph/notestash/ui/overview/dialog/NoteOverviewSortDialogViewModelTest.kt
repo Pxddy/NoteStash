@@ -1,11 +1,11 @@
 package com.ph.notestash.ui.overview.dialog
 
+import com.ph.core.common.coroutines.dispatcher.TestDispatcherProvider
 import com.ph.notestash.data.model.sort.NoteSortingPreferences
 import com.ph.notestash.data.model.sort.SortNoteBy
 import com.ph.notestash.data.model.sort.SortOrder
 import com.ph.notestash.data.repository.NoteSortingPreferencesRepository
 import com.ph.notestash.testutils.MainDispatcherExtension
-import com.ph.notestash.testutils.TestDispatcherProvider
 import com.ph.notestash.testutils.TimberExtension
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe

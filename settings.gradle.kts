@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "NoteStash"
 include(":app")
+include(":core-testing")
