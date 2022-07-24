@@ -11,13 +11,11 @@ import com.ph.notestash.data.model.note.DefaultNote
 import com.ph.notestash.data.model.note.Note
 import com.ph.notestash.data.repository.NoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
@@ -74,7 +72,6 @@ class NoteEditViewModel @Inject constructor(
         Timber.d("deleteNote()")
         noteRepository.deleteNote(id)
             .onFailure { Timber.e(it, "Failed to delete note") }
-            .onSuccess { Timber.d("Successfully deleted note") }
         goBack()
     }
 
@@ -113,15 +110,25 @@ class NoteEditViewModel @Inject constructor(
         Timber.d("bindDatabaseUpdate")
         internalData
             .drop(1) // Drop initial emission
-            .debounce(500.milliseconds)
-            .onEach { data ->
-                noteRepository.updateNote(id) {
-                    title = data.title
-                    content = data.content
+            .debounce(500)
+            .onEach { save(data = it) }
+            .onCompletion {
+                // Better safe than sorry ¯\_(ツ)_/¯
+                withContext(NonCancellable) {
+                    save(internalData.value)
                 }
-                    .onFailure { Timber.e(it, "Failed to update note") }
             }
             .launchIn(viewModelScope + dispatcherProvider.Default)
+    }
+
+    private suspend fun save(data: InternalData) {
+        Timber.v("save(data=%s)", data)
+        noteRepository.updateNote(id) {
+            title = data.title
+            content = data.content
+        }
+            .onFailure { Timber.e(it, "Failed to update note") }
+            .onSuccess { Timber.v("Updated note") }
     }
 }
 

@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import app.cash.turbine.test
 import com.ph.core.common.coroutines.dispatcher.TestDispatcherProvider
+import com.ph.core.data.model.sort.SortTestData
 import com.ph.notestash.common.time.TimeTestData
 import com.ph.notestash.common.time.toLongDateFormat
 import com.ph.notestash.data.model.note.NoteTestData
 import com.ph.notestash.data.model.sort.SortNoteBy
 import com.ph.notestash.data.model.sort.SortOrder
-import com.ph.notestash.data.model.sort.SortTestData
 import com.ph.notestash.data.repository.NoteRepository
 import com.ph.notestash.data.repository.NoteSortingPreferencesRepository
 import com.ph.notestash.testutils.MainDispatcherExtension

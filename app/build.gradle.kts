@@ -1,22 +1,21 @@
 plugins {
-    alias(libs.plugins.android)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kapt)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.androidx.navigation.safeargs)
+    id("notestash.android.application")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
-    compileSdk = 32
-
     defaultConfig {
         applicationId = "com.ph.notestash"
-        minSdk = 21
-        targetSdk = 32
         versionCode = 1
         versionName = "1.0.0"
 
         testInstrumentationRunner = "com.ph.core.NoteStashTestRunner"
+
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -27,37 +26,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-opt-in=kotlinx.coroutines.FlowPreview",
-            "-opt-in=kotlin.time.ExperimentalTime",
-            "-opt-in=kotlin.RequiresOptIn",
-            "-opt-in=kotlin.ExperimentalStdlibApi"
-        )
-    }
-
-    hilt {
-        enableAggregatingTask = true
-    }
-
-    kapt {
-        // Recommended for Hilt
-        correctErrorTypes = true
-        arguments {
-            arg("room.schemaLocation", "$projectDir/schemas")
-            arg("room.incremental", true)
-            arg("room.expandProjection", true)
         }
     }
 
@@ -79,12 +47,29 @@ android {
     }
 }
 
+hilt {
+    enableAggregatingTask = true
+}
+
+kapt {
+    // Recommended for Hilt
+    correctErrorTypes = true
+
+    arguments {
+        arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.incremental", true)
+        arg("room.expandProjection", true)
+    }
+}
+
 dependencies {
 
     testImplementation(project(":core-testing"))
     androidTestImplementation(project(":core-testing"))
 
-    androidTestImplementation(libs.bundles.androidx.test)
+    debugImplementation(libs.androidx.fragment.testing)
+    androidTestImplementation(libs.bundles.androidx.test.espresso)
+    androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.kotest.assertions)
     androidTestImplementation(libs.hilt.testing)

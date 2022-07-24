@@ -1,48 +1,21 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kapt)
+    id("notestash.android.library")
+    kotlin("kapt")
 }
 
-android {
-    compileSdk = 32
+dependencies {
+    implementation(project(":app"))
 
-    defaultConfig {
-        minSdk = 21
-        targetSdk = 32
-    }
+    debugImplementation(libs.androidx.fragment.testing)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.kotlinx.coroutines.test)
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
+    implementation(libs.androidx.dataStore.core)
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+    implementation(libs.bundles.androidx.room)
 
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-opt-in=kotlinx.coroutines.FlowPreview",
-            "-opt-in=kotlin.time.ExperimentalTime",
-            "-opt-in=kotlin.RequiresOptIn",
-            "-opt-in=kotlin.ExperimentalStdlibApi"
-        )
-    }
+    implementation(libs.androidx.test.runner)
 
-    dependencies {
-        implementation(project(":app"))
-
-        implementation(libs.bundles.androidx.test)
-        implementation(libs.kotlinx.coroutines.test)
-
-        implementation(libs.androidx.dataStore.core)
-
-        implementation(libs.bundles.androidx.room)
-
-        implementation(libs.hilt.testing)
-        kapt(libs.hilt.compiler)
-
-        testImplementation(libs.bundles.jupiter)
-        testImplementation(libs.kotest.assertions)
-    }
+    implementation(libs.hilt.testing)
+    kapt(libs.hilt.compiler)
 }
