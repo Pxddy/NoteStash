@@ -1,10 +1,7 @@
 package com.ph.notestash.ui
 
-import android.view.View
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.UiController
-import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -23,7 +20,6 @@ import com.ph.notestash.ui.main.MainActivity
 import com.ph.notestash.ui.overview.list.NoteOverviewListItemVH
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.Matcher
 import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
@@ -253,8 +249,8 @@ class NotesEndToEndTest {
             .perform(click())
 
         // Add title and content to note
-        onView(withId(R.id.title)).perform(typeText(note.title))
-        onView(withId(R.id.content)).perform(typeText(note.content))
+        onView(withId(R.id.title)).perform(typeText(note.title), closeSoftKeyboard())
+        onView(withId(R.id.content)).perform(typeText(note.content), closeSoftKeyboard())
 
         return note
     }
@@ -267,14 +263,13 @@ class NotesEndToEndTest {
             }.toDefaultNote()
 
         // Update title and content
-        onView(withId(R.id.title)).perform(replaceText(updatedNote.title))
-        onView(withId(R.id.content)).perform(replaceText(updatedNote.content))
+        onView(withId(R.id.title)).perform(replaceText(updatedNote.title), closeSoftKeyboard())
+        onView(withId(R.id.content)).perform(replaceText(updatedNote.content), closeSoftKeyboard())
 
         return updatedNote
     }
 
     private fun leaveScreen() {
-        Espresso.closeSoftKeyboard()
         Espresso.pressBack()
     }
 }
