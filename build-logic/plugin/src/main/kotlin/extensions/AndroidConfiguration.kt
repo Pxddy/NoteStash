@@ -3,7 +3,10 @@ package extensions
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 internal fun Project.configureKotlinAndroid(
@@ -17,8 +20,12 @@ internal fun Project.configureKotlinAndroid(
         }
 
         compileOptions {
+            // Flag to enable support for the new language APIs
+            isCoreLibraryDesugaringEnabled = true
+
             sourceCompatibility = JavaVersion.VERSION_11
             targetCompatibility = JavaVersion.VERSION_11
+
         }
 
         kotlinOptions {
@@ -32,6 +39,13 @@ internal fun Project.configureKotlinAndroid(
                 "-opt-in=kotlin.ExperimentalStdlibApi"
             )
         }
+    }
+
+
+    val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
+    dependencies {
+        add("coreLibraryDesugaring", libs.findLibrary("android.desugarJdkLibs").get())
     }
 }
 

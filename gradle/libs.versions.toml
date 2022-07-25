@@ -1,4 +1,5 @@
 [versions]
+androidDesugarJdkLibs = "1.1.6"
 androidGradlePlugin = "7.2.1"
 androidxActivity = "1.5.0"
 androidxAppCompat = "1.4.2"
@@ -32,6 +33,8 @@ android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", ver
 androidx-navigation-safeargs-gradlePlugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "androidxNavigation" }
 hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "androidxActivity" }
 
