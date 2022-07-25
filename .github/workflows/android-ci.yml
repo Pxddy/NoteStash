@@ -27,7 +27,7 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-      
+
     - name: Build with Gradle
       run: ./gradlew clean assembleDebug --stacktrace
 
@@ -42,7 +42,7 @@ jobs:
     timeout-minutes: 45
     strategy:
       matrix:
-        api-level: [23, 26, 32]
+        api-level: [23, 26, 30]
 
     steps:
       - name: Project Checkout
