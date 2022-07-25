@@ -9,6 +9,7 @@ This project is just a simple playground to play around with some topics related
 - Room
 - Android Paging library v3 (I know it's kinda overkill for this app, but I wanted to try it out)
 - DataStore
+- Material Design 3
 - Android Espresso Ui tests
 - Junit5
 - CI with Github Actions
