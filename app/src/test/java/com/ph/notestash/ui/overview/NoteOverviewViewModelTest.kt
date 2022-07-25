@@ -21,6 +21,7 @@ import io.kotest.assertions.asClue
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.*
+import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -37,8 +38,7 @@ import org.junit.jupiter.params.provider.EnumSource
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 
-@ExtendWith(TimberExtension::class)
-@ExtendWith(MainDispatcherExtension::class)
+@ExtendWith(MainDispatcherExtension::class, TimberExtension::class, MockKExtension::class)
 internal class NoteOverviewViewModelTest {
 
     private val defaultNote = NoteTestData.testDefaultNote.copy(
@@ -63,8 +63,6 @@ internal class NoteOverviewViewModelTest {
 
     @BeforeEach
     fun setup() {
-        clearAllMocks()
-
         with(mockNoteSortingPreferencesRepository) {
             every { noteSortingPreferences } returns noteSortingPreferencesFlow
             coEvery { setSortedBy(any()) } returns Result.success(defaultNoteSortingPreferences)

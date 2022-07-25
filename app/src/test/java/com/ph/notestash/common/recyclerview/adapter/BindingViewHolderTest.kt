@@ -5,10 +5,13 @@ import android.view.View
 import androidx.viewbinding.ViewBinding
 import io.kotest.matchers.shouldBe
 import io.mockk.every
+import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MockKExtension::class)
 internal class BindingViewHolderTest {
 
     private val mockContext: Context = mockk()

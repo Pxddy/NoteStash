@@ -5,9 +5,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import io.kotest.matchers.shouldBe
 import io.mockk.*
+import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MockKExtension::class)
 internal class SimpleSwipeCallbackTest {
 
     private val mockRecyclerView: RecyclerView = mockk()
@@ -16,7 +19,6 @@ internal class SimpleSwipeCallbackTest {
 
     @BeforeEach
     fun setup() {
-        clearAllMocks()
         simpleSwipeCallback = SimpleSwipeCallback()
     }
 

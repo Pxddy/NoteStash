@@ -10,6 +10,7 @@ import com.ph.notestash.testutils.TimberExtension
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import io.mockk.*
+import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -19,8 +20,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
-@ExtendWith(TimberExtension::class)
-@ExtendWith(MainDispatcherExtension::class)
+@ExtendWith(MainDispatcherExtension::class, TimberExtension::class, MockKExtension::class)
 internal class NoteOverviewSortDialogViewModelTest {
 
     private val defaultNoteSortingPreferences = NoteSortingPreferences()
@@ -31,7 +31,6 @@ internal class NoteOverviewSortDialogViewModelTest {
 
     @BeforeEach
     fun setup() {
-        clearAllMocks()
         noteSortingPreferencesFlow.value = defaultNoteSortingPreferences
 
         with(mockNoteSortingPreferencesRepository) {

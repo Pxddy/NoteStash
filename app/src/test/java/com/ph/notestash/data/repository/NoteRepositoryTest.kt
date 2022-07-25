@@ -11,6 +11,7 @@ import com.ph.notestash.testutils.TimberExtension
 import com.ph.notestash.testutils.runWithoutChildExceptionCancellation
 import io.kotest.matchers.shouldBe
 import io.mockk.*
+import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -25,7 +26,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource
 import org.junit.jupiter.params.provider.EnumSource
 import java.time.Instant
 
-@ExtendWith(TimberExtension::class)
+@ExtendWith(TimberExtension::class, MockKExtension::class)
 class NoteRepositoryTest {
 
     private val mockNoteDao: NoteDao = mockk(relaxUnitFun = true)
@@ -49,8 +50,6 @@ class NoteRepositoryTest {
 
     @BeforeEach
     fun setup() {
-        clearAllMocks()
-
         every { mockTimeProvider.now } returns now
 
         with(mockNoteDao) {

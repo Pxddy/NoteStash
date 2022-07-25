@@ -14,6 +14,7 @@ import com.ph.notestash.testutils.TimberExtension
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.*
+import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -22,8 +23,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TimberExtension::class)
-@ExtendWith(MainDispatcherExtension::class)
+@ExtendWith(MainDispatcherExtension::class, TimberExtension::class, MockKExtension::class)
 internal class NoteEditViewModelTest {
 
     private val defaultNote = NoteTestData.testDefaultNote
@@ -46,7 +46,6 @@ internal class NoteEditViewModelTest {
 
     @BeforeEach
     fun setup() {
-        clearAllMocks()
         noteFlow.value = null
 
         every { timeProvider.now } returns TimeTestData.testInstant
