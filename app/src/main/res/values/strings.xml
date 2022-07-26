@@ -22,8 +22,9 @@
     <string name="fragment_note_overview_button_add_note_description">Add note</string>
     <string name="fragment_note_overview_restore_message">Note deleted</string>
     <string name="fragment_note_overview_restore_action_text">Undo</string>
-    <string name="fragment_note_overview_restore_retry_message">Failed to restore note :(</string>
+    <string name="fragment_note_overview_restore_retry_message">Failed to restore note</string>
     <string name="fragment_note_overview_restore_retry_action_text">Try again</string>
+    <string name="fragment_note_overview_deletion_failure_message">Failed to delete note</string>
 
     <!-- NoteOverviewMenu -->
     <string name="menu_note_overview_item_sort">Sort</string>

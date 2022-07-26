@@ -87,7 +87,14 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
                 )
             )
             is NoteOverviewEvent.RestoreNote -> event.handle()
-            is NoteOverviewEvent.DeletionFailure -> adapter.notifyItemChanged(event.pos)
+            is NoteOverviewEvent.DeletionFailure -> {
+                adapter.notifyItemChanged(event.pos)
+                Snackbar.make(
+                    binding.root,
+                    R.string.fragment_note_overview_deletion_failure_message,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
             NoteOverviewEvent.ShowSortingDialog -> navigateTo(
                 NoteOverviewFragmentDirections
                     .actionNoteOverviewFragmentToNoteOverviewSortDialogFragment()

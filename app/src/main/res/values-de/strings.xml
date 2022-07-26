@@ -21,8 +21,9 @@
     <string name="fragment_note_overview_button_add_note_description">Notiz hinzufügen</string>
     <string name="fragment_note_overview_restore_message">Notiz gelöscht</string>
     <string name="fragment_note_overview_restore_action_text">Rückgängig</string>
-    <string name="fragment_note_overview_restore_retry_message">Wiederherstellung der Notiz fehlgeschlagen :(</string>
+    <string name="fragment_note_overview_restore_retry_message">Wiederherstellung der Notiz fehlgeschlagen</string>
     <string name="fragment_note_overview_restore_retry_action_text">Erneut versuchen</string>
+    <string name="fragment_note_overview_deletion_failure_message">Notiz konnte nicht gelöscht werden</string>
 
     <!-- NoteOverviewMenu -->
     <string name="menu_note_overview_item_sort">Sortieren</string>
