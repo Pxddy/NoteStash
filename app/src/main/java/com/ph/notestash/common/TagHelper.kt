@@ -1,3 +1,3 @@
 package com.ph.notestash.common
 
-inline fun <reified T> tag(): String = T::class.java.simpleName
+inline fun <reified T> fragmentTag(): String = T::class.java.name

@@ -6,7 +6,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph.notestash.R
-import com.ph.notestash.common.tag
+import com.ph.notestash.common.fragmentTag
 import com.ph.notestash.ui.edit.NoteEditViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +25,7 @@ class NoteEditDeletionConfirmationDialogFragment : DialogFragment() {
     }
 
     companion object {
-        val TAG = tag<NoteEditDeletionConfirmationDialogFragment>()
+        val TAG = fragmentTag<NoteEditDeletionConfirmationDialogFragment>()
 
         fun newInstance() = NoteEditDeletionConfirmationDialogFragment()
     }

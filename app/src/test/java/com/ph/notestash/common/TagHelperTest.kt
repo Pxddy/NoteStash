@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test
 class TagHelperTest {
 
     @Test
-    fun `creates tag from class name`() {
-        tag<TagHelperTest>() shouldBe "TagHelperTest"
-        tag<TestClassA>() shouldBe "TestClassA"
+    fun `creates fragment tag from class getName`() {
+        fragmentTag<TagHelperTest>() shouldBe "com.ph.notestash.common.TagHelperTest"
+        fragmentTag<TestClassA>() shouldBe "com.ph.notestash.common.TagHelperTest\$TestClassA"
     }
 
     private class TestClassA
