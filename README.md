@@ -1,8 +1,9 @@
 # NoteStash
 NoteStash a minimalistic note taking app.
 
-## :camera_flash: Screenshots
+
 <img src="/screenshots/note_list_empty_screen.png" width="260">&emsp;<img src="/screenshots/add_note_screen.png" width="260">&emsp;<img src="/screenshots/note_list_screen.png" width="260">
+
 
 
 This project is just a simple playground to play around with some topics related to Android development like: 
