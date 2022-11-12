@@ -24,4 +24,5 @@ dependencies {
 
     api(libs.kotlinx.coroutines.test)
     api(libs.androidx.test.core.ktx)
+    api(libs.kotest.assertions)
 }

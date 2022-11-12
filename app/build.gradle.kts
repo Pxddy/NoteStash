@@ -72,16 +72,13 @@ dependencies {
 
     androidTestImplementation(libs.bundles.androidx.test.espresso)
     androidTestImplementation(libs.androidx.test.ext)
-    androidTestImplementation(libs.kotest.assertions)
+
     androidTestImplementation(libs.hilt.testing)
     kaptAndroidTest(libs.hilt.compiler)
 
     testImplementation(libs.bundles.jupiter)
-    testImplementation(libs.kotest.assertions)
     testImplementation(libs.mockk)
     testImplementation(libs.turbine)
-
-    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
 
     // Material
