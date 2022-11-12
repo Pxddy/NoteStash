@@ -70,10 +70,8 @@ dependencies {
     testImplementation(project(":core-testing"))
     androidTestImplementation(project(":core-testing"))
 
-    debugImplementation(libs.androidx.fragment.testing)
     androidTestImplementation(libs.bundles.androidx.test.espresso)
     androidTestImplementation(libs.androidx.test.ext)
-    androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.kotest.assertions)
     androidTestImplementation(libs.hilt.testing)
     kaptAndroidTest(libs.hilt.compiler)
@@ -81,7 +79,6 @@ dependencies {
     testImplementation(libs.bundles.jupiter)
     testImplementation(libs.kotest.assertions)
     testImplementation(libs.mockk)
-    testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
 
     implementation(libs.androidx.core.ktx)

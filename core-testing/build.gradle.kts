@@ -10,9 +10,8 @@ android{
 dependencies {
     implementation(project(":app"))
 
-    debugImplementation(libs.androidx.fragment.testing)
+    debugApi(libs.androidx.fragment.testing)
     implementation(libs.androidx.appcompat)
-    implementation(libs.kotlinx.coroutines.test)
 
     implementation(libs.androidx.dataStore.core)
 
@@ -22,4 +21,7 @@ dependencies {
 
     implementation(libs.hilt.testing)
     kapt(libs.hilt.compiler)
+
+    api(libs.kotlinx.coroutines.test)
+    api(libs.androidx.test.core.ktx)
 }
