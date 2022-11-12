@@ -6,12 +6,15 @@ plugins {
 }
 
 android {
+
+    namespace = "com.ph.notestash"
+
     defaultConfig {
         applicationId = "com.ph.notestash"
         versionCode = 1
         versionName = "1.0.0"
 
-        testInstrumentationRunner = "com.ph.core.NoteStashTestRunner"
+        testInstrumentationRunner = "com.ph.core.testing.NoteStashTestRunner"
 
         vectorDrawables {
             useSupportLibrary = true

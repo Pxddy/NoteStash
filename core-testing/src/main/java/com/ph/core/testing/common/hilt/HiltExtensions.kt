@@ -1,4 +1,4 @@
-package com.ph.core.common.hilt
+package com.ph.core.testing.common.hilt
 
 /*
  * Copyright (C) 2019 The Android Open Source Project

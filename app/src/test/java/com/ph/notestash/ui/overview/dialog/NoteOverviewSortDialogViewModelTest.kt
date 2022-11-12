@@ -1,6 +1,6 @@
 package com.ph.notestash.ui.overview.dialog
 
-import com.ph.core.common.coroutines.dispatcher.TestDispatcherProvider
+import com.ph.core.testing.common.coroutines.dispatcher.TestDispatcherProvider
 import com.ph.notestash.data.model.sort.NoteSortingPreferences
 import com.ph.notestash.data.model.sort.SortNoteBy
 import com.ph.notestash.data.model.sort.SortOrder

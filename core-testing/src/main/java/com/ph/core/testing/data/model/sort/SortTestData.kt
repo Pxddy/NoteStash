@@ -1,4 +1,4 @@
-package com.ph.core.data.model.sort
+package com.ph.core.testing.data.model.sort
 
 import com.ph.notestash.data.model.sort.NoteSortingPreferences
 

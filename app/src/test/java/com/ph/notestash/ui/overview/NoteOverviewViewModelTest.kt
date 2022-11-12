@@ -5,8 +5,8 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import app.cash.turbine.test
-import com.ph.core.common.coroutines.dispatcher.TestDispatcherProvider
-import com.ph.core.data.model.sort.SortTestData
+import com.ph.core.testing.common.coroutines.dispatcher.TestDispatcherProvider
+import com.ph.core.testing.data.model.sort.SortTestData
 import com.ph.notestash.common.time.TimeTestData
 import com.ph.notestash.common.time.toLongDateFormat
 import com.ph.notestash.data.model.note.NoteTestData

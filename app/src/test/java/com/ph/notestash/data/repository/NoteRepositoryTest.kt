@@ -1,7 +1,7 @@
 package com.ph.notestash.data.repository
 
 import androidx.paging.PagingSource
-import com.ph.core.common.coroutines.dispatcher.TestDispatcherProvider
+import com.ph.core.testing.common.coroutines.dispatcher.TestDispatcherProvider
 import com.ph.notestash.common.time.TimeProvider
 import com.ph.notestash.data.database.dao.NoteDao
 import com.ph.notestash.data.model.note.*

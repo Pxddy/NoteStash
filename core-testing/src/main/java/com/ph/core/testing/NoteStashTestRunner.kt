@@ -1,4 +1,4 @@
-package com.ph.core
+package com.ph.core.testing
 
 import android.app.Application
 import android.content.Context

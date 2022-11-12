@@ -1,4 +1,4 @@
-package com.ph.core.common.coroutines.dispatcher
+package com.ph.core.testing.common.coroutines.dispatcher
 
 import com.ph.notestash.common.coroutines.dispatcher.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher

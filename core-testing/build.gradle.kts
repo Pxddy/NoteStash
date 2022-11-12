@@ -3,6 +3,10 @@ plugins {
     kotlin("kapt")
 }
 
+android{
+    namespace = "com.ph.core.testing"
+}
+
 dependencies {
     implementation(project(":app"))
 

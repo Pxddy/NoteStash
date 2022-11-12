@@ -2,7 +2,7 @@ package com.ph.notestash.ui.edit
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
-import com.ph.core.common.coroutines.dispatcher.TestDispatcherProvider
+import com.ph.core.testing.common.coroutines.dispatcher.TestDispatcherProvider
 import com.ph.notestash.common.time.TimeProvider
 import com.ph.notestash.common.time.TimeTestData
 import com.ph.notestash.common.uuid.UUIDProvider
