@@ -8,43 +8,49 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewbinding.ViewBinding
 import timber.log.Timber
-import kotlin.properties.ReadOnlyProperty
-import kotlin.reflect.KProperty
 
 // View binding for Activity
-@Suppress("unused")
-inline fun <reified ViewBindingT : ViewBinding> Activity.viewBinding(
-    noinline viewBindFactory: (View) -> ViewBindingT
-) = ActivityBindingProperty(viewBindFactory = viewBindFactory)
+fun <ViewBindingT : ViewBinding> Activity.viewBinding(
+    viewBindFactory: (View) -> ViewBindingT
+): Lazy<ViewBindingT> = ActivityBindingProperty(
+    activity = this,
+    viewBindFactory = viewBindFactory
+)
 
-class ActivityBindingProperty<ViewBindingT : ViewBinding>(
-    val viewBindFactory: (View) -> ViewBindingT
-) : ViewBindingProperty<Activity, ViewBindingT>() {
 
-    override fun createBinding(thisRef: Activity): ViewBindingT {
-        val view = thisRef.findViewById<ViewGroup>(android.R.id.content).getChildAt(0)
+// View binding for Fragment
+fun <ViewBindingT : ViewBinding> Fragment.viewBinding(
+    viewBindFactory: (View) -> ViewBindingT
+): Lazy<ViewBindingT> = FragmentBindingProperty(
+    fragment = this,
+    viewBindFactory = viewBindFactory
+)
+
+private class ActivityBindingProperty<ViewBindingT : ViewBinding>(
+    private val activity: Activity,
+    private val viewBindFactory: (View) -> ViewBindingT
+) : ViewBindingProperty<ViewBindingT>() {
+
+    override fun createBinding(): ViewBindingT {
+        val view = activity.findViewById<ViewGroup>(android.R.id.content).getChildAt(0)
         return viewBindFactory(view)
     }
 }
 
+private class FragmentBindingProperty<ViewBindingT : ViewBinding>(
+    private val fragment: Fragment,
+    private val viewBindFactory: (View) -> ViewBindingT
+) : ViewBindingProperty<ViewBindingT>() {
 
-// View binding for Fragment
-@Suppress("unused")
-inline fun <reified T : ViewBinding> Fragment.viewBinding(noinline factory: (View) -> T) =
-    FragmentBindingProperty(factory)
-
-class FragmentBindingProperty<ViewBindingT : ViewBinding>(val factory: (View) -> ViewBindingT) :
-    ViewBindingProperty<Fragment, ViewBindingT>() {
-
-    override fun createBinding(thisRef: Fragment): ViewBindingT {
-        thisRef.parentFragmentManager.registerFragmentLifecycleCallbacks(
-            FragmentViewDestroyedListener(thisRef),
+    override fun createBinding(): ViewBindingT {
+        fragment.parentFragmentManager.registerFragmentLifecycleCallbacks(
+            FragmentViewDestroyedListener(),
             false
         )
-        return factory(thisRef.requireView())
+        return viewBindFactory(fragment.requireView())
     }
 
-    private inner class FragmentViewDestroyedListener(private val fragment: Fragment) :
+    private inner class FragmentViewDestroyedListener :
         FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
             super.onFragmentViewDestroyed(fm, f)
@@ -57,20 +63,23 @@ class FragmentBindingProperty<ViewBindingT : ViewBinding>(val factory: (View) ->
     }
 }
 
-abstract class ViewBindingProperty<in Ref : Any, out ViewBindingT : ViewBinding> :
-    ReadOnlyProperty<Ref, ViewBindingT> {
+private abstract class ViewBindingProperty<out ViewBindingT : ViewBinding> : Lazy<ViewBindingT> {
     private var binding: ViewBindingT? = null
+
+    override val value: ViewBindingT
+        get() = getBinding()
+
+    override fun isInitialized(): Boolean = binding != null
 
     fun clearBinding() {
         binding = null
     }
 
     @MainThread
-    override fun getValue(thisRef: Ref, property: KProperty<*>): ViewBindingT =
-        binding ?: createBinding(thisRef).also {
-            Timber.v("Created view binding=%s for %s", it, thisRef)
-            binding = it
-        }
+    private fun getBinding(): ViewBindingT = binding ?: createBinding().also {
+        Timber.v("Created view binding=%s", it)
+        binding = it
+    }
 
-    internal abstract fun createBinding(thisRef: Ref): ViewBindingT
+    abstract fun createBinding(): ViewBindingT
 }
