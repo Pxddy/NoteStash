@@ -1,4 +1,6 @@
 import com.android.build.gradle.LibraryExtension
+import common.Version
+import extensions.configureJava
 import extensions.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -14,8 +16,10 @@ class AndroidLibraryPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = compileSdk
+                defaultConfig.targetSdk = Version.Sdk.target
             }
+
+            configureJava()
         }
     }
 }

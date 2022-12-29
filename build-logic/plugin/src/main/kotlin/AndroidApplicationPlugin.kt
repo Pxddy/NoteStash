@@ -1,4 +1,6 @@
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import common.Version
+import extensions.configureJava
 import extensions.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -14,8 +16,10 @@ class AndroidApplicationPlugin : Plugin<Project> {
 
             extensions.configure<BaseAppModuleExtension> {
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = compileSdk
+                defaultConfig.targetSdk = Version.Sdk.target
             }
+
+            configureJava()
         }
     }
 }

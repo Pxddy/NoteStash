@@ -1,3 +1,5 @@
+import common.Version
+
 plugins {
     id("notestash.android.application")
     kotlin("kapt")
@@ -11,8 +13,8 @@ android {
 
     defaultConfig {
         applicationId = "com.ph.notestash"
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = Version.Release.versionCode
+        versionName = Version.Release.versionName
 
         testInstrumentationRunner = "com.ph.core.testing.NoteStashTestRunner"
 

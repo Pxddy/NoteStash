@@ -1,7 +1,7 @@
 package extensions
 
 import com.android.build.api.dsl.CommonExtension
-import org.gradle.api.JavaVersion
+import common.Version
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
@@ -13,23 +13,23 @@ internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *>,
 ) {
     commonExtension.apply {
-        compileSdk = 33
+        compileSdk = Version.Sdk.compile
 
         defaultConfig {
-            minSdk = 21
+            minSdk = Version.Sdk.min
         }
 
         compileOptions {
             // Flag to enable support for the new language APIs
             isCoreLibraryDesugaringEnabled = true
 
-            sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
+            sourceCompatibility = Version.Java.version
+            targetCompatibility = Version.Java.version
 
         }
 
         kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_11.toString()
+            options.jvmTarget.set(Version.Java.jvmTarget)
 
             freeCompilerArgs = freeCompilerArgs + listOf(
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
