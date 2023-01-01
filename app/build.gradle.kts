@@ -127,4 +127,6 @@ dependencies {
     // Moshi
     implementation(libs.moshi.moshi)
     kapt(libs.moshi.codegen)
+
+    implementation(libs.simpleViewBinding)
 }

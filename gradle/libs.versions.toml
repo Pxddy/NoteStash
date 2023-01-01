@@ -26,6 +26,7 @@ kotlin = "1.8.0"
 material3 = "1.7.0"
 mockk = "1.13.3"
 moshi = "1.14.0"
+simpleViewBinding = "v1.0.0"
 timber = "5.0.1"
 turbine = "0.12.1"
 
@@ -94,6 +95,8 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 moshi-moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
+
+simpleViewBinding = { module = "com.github.Pxddy:simple-viewbinding", version.ref = "simpleViewBinding" }
 
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 

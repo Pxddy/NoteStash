@@ -12,10 +12,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDE
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ph.notestash.R
-import com.ph.notestash.common.viewbinding.viewBinding
 import com.ph.notestash.databinding.FragmentNoteOverviewSortDialogBinding
 import com.ph.notestash.data.model.sort.SortNoteBy
 import com.ph.notestash.data.model.sort.SortOrder
+import com.pxddy.simpleviewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

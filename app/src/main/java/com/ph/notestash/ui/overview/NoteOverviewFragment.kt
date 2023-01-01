@@ -16,9 +16,9 @@ import com.ph.notestash.common.coroutines.dispatcher.DispatcherProvider
 import com.ph.notestash.common.coroutines.flow.collectLatestIn
 import com.ph.notestash.common.fragment.navigateTo
 import com.ph.notestash.common.recyclerview.swipe.SimpleSwipeCallback
-import com.ph.notestash.common.viewbinding.viewBinding
 import com.ph.notestash.databinding.FragmentNoteOverviewBinding
 import com.ph.notestash.ui.overview.list.NoteOverviewListAdapter
+import com.pxddy.simpleviewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

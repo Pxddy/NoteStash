@@ -13,9 +13,9 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
 import com.ph.notestash.R
 import com.ph.notestash.common.fragment.popBackStack
-import com.ph.notestash.common.viewbinding.viewBinding
 import com.ph.notestash.databinding.FragmentNoteEditBinding
 import com.ph.notestash.ui.edit.dialog.NoteEditDeletionConfirmationDialogFragment
+import com.pxddy.simpleviewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
