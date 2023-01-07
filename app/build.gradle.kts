@@ -74,7 +74,6 @@ dependencies {
 
     androidTestImplementation(libs.bundles.androidx.test.espresso)
     androidTestImplementation(libs.androidx.test.ext)
-    androidTestImplementation(libs.androidx.test.monitor)
 
     androidTestImplementation(libs.hilt.testing)
     kaptAndroidTest(libs.hilt.compiler)
