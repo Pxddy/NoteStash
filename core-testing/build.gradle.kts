@@ -1,9 +1,10 @@
+@Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     id("notestash.android.library")
-    kotlin("kapt")
+    alias(libs.plugins.kotlin.kapt)
 }
 
-android{
+android {
     namespace = "com.ph.core.testing"
 }
 

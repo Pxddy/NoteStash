@@ -31,11 +31,6 @@ timber = "5.0.1"
 turbine = "0.12.1"
 
 [libraries]
-android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
-androidx-navigation-safeargs-gradlePlugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "androidxNavigation" }
-hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
-kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
-
 android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "androidxActivity" }
@@ -103,6 +98,10 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
+# Dependencies of the included build-logic
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+
 [bundles]
 androidx-layout = ["androidx-constraintlayout", "android-coordinatorlayout"]
 androidx-navigation = ["androidx-navigation-fragment", "androidx-navigation-ui"]
@@ -110,3 +109,11 @@ androidx-room = ["androidx-room-runtime", "androidx-room-ktx", "androidx-room-pa
 androidx-test-espresso = ["androidx-test-espresso-contrib", "androidx-test-espresso-core"]
 jupiter = ["jupiter-api", "jupiter-engine", "jupiter-params"]
 kotlinx-coroutines = ["kotlinx-coroutines-android", "kotlinx-coroutines-core"]
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+androidx-navigation-safeargs-gradlePlugin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidxNavigation" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+hilt-gradlePlugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }

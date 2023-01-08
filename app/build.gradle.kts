@@ -1,10 +1,11 @@
 import common.Version
 
+@Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     id("notestash.android.application")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
-    id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.androidx.navigation.safeargs.gradlePlugin)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.hilt.gradlePlugin)
 }
 
 android {
