@@ -1,6 +1,6 @@
 [versions]
 androidDesugarJdkLibs = "2.0.0"
-androidGradlePlugin = "7.4.0"
+androidGradlePlugin = "7.4.1"
 androidxActivity = "1.6.1"
 androidxAppCompat = "1.6.0"
 androidxConstraintLayout = "2.1.4"
