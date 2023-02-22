@@ -22,6 +22,19 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += arrayOf(
+                    "room.incremental" to "true",
+                    "room.expandProjection" to "true"
+                )
+
+                compilerArgumentProviders(
+                    RoomSchemaArgProvider(schemaDir = File(projectDir, "schemas"))
+                )
+            }
+        }
     }
 
     buildTypes {
@@ -60,12 +73,6 @@ hilt {
 kapt {
     // Recommended for Hilt
     correctErrorTypes = true
-
-    arguments {
-        arg("room.schemaLocation", "$projectDir/schemas")
-        arg("room.incremental", true)
-        arg("room.expandProjection", true)
-    }
 }
 
 dependencies {
@@ -130,4 +137,17 @@ dependencies {
     kapt(libs.moshi.codegen)
 
     implementation(libs.simpleViewBinding)
+}
+
+private class RoomSchemaArgProvider(
+    @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    val schemaDir: File
+) : CommandLineArgumentProvider {
+
+    override fun asArguments(): Iterable<String> {
+        // Note: If you're using KSP, you should change the line below to return
+        // listOf("room.schemaLocation=${schemaDir.path}")
+        return listOf("-Aroom.schemaLocation=${schemaDir.path}")
+    }
 }

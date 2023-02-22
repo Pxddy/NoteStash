@@ -8,7 +8,10 @@ import com.ph.notestash.common.coroutines.scope.AppScope
 import com.ph.notestash.common.result.checkCancellation
 import com.ph.notestash.common.time.TimeProvider
 import com.ph.notestash.data.database.dao.NoteDao
-import com.ph.notestash.data.model.note.*
+import com.ph.notestash.data.model.note.Note
+import com.ph.notestash.data.model.note.UpdateNoteAction
+import com.ph.notestash.data.model.note.toMutableNote
+import com.ph.notestash.data.model.note.toNoteEntity
 import com.ph.notestash.data.model.sort.SortNoteBy
 import com.ph.notestash.data.model.sort.SortOrder
 import dagger.Lazy

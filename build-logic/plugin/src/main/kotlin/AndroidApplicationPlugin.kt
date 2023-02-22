@@ -1,6 +1,6 @@
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import common.Version
-import extensions.configureJava
+import extensions.configureJvmToolchain
 import extensions.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -19,7 +19,7 @@ class AndroidApplicationPlugin : Plugin<Project> {
                 defaultConfig.targetSdk = Version.Sdk.target
             }
 
-            configureJava()
+            configureJvmToolchain()
         }
     }
 }
