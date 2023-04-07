@@ -69,7 +69,7 @@ jobs:
           disable-animations: true
           disk-size: 6000M
           heap-size: 600M
-          script: ./gradlew :connectedAndroidTest --daemon --stacktrace
+          script: ./gradlew connectedAndroidTest --daemon --stacktrace
 
       - name: Upload test outputs
         uses: actions/upload-artifact@v3
