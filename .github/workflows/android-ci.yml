@@ -58,15 +58,18 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Build AndroidTest apps
+        run: ./gradlew packageDebug packageDebugAndroidTest --daemon
+
       - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
           arch: x86_64
           disable-animations: true
-          disk-size: 1500M
-          heap-size: 512M
-          script: ./gradlew clean :app:connectedAndroidTest --stacktrace
+          disk-size: 6000M
+          heap-size: 600M
+          script: ./gradlew :connectedAndroidTest --daemon --stacktrace
 
       - name: Upload test outputs
         uses: actions/upload-artifact@v3
