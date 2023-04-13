@@ -1,6 +1,5 @@
 import common.Version
 
-@Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     id("notestash.android.application")
     alias(libs.plugins.androidx.navigation.safeargs.gradlePlugin)

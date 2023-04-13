@@ -22,8 +22,8 @@ object Version {
     }
 
     object Java {
-        val version = JavaVersion.VERSION_11
-        val jvmTarget = JvmTarget.JVM_11
+        val version = JavaVersion.VERSION_17
+        val jvmTarget = JvmTarget.JVM_17
         val languageVersion: JavaLanguageVersion = JavaLanguageVersion.of(version.majorVersion)
     }
 }
