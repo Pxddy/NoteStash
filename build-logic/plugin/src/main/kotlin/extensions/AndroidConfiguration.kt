@@ -4,11 +4,9 @@ import com.android.build.api.dsl.CommonExtension
 import common.Version
 import common.libs
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
-import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *>,
@@ -28,9 +26,11 @@ internal fun Project.configureKotlinAndroid(
             targetCompatibility = Version.Java.version
 
         }
+    }
 
+    tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
-            options.jvmTarget.set(Version.Java.jvmTarget)
+            jvmTarget = Version.Java.version.toString()
 
             freeCompilerArgs = freeCompilerArgs + listOf(
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
@@ -45,8 +45,4 @@ internal fun Project.configureKotlinAndroid(
     dependencies {
         add("coreLibraryDesugaring", libs.android.desugarJdkLibs)
     }
-}
-
-fun CommonExtension<*, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
-    (this as ExtensionAware).extensions.configure("kotlinOptions", block)
 }

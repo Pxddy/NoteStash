@@ -1,6 +1,5 @@
 import com.android.build.gradle.LibraryExtension
 import common.Version
-import extensions.configureJvmToolchain
 import extensions.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -18,8 +17,6 @@ class AndroidLibraryPlugin : Plugin<Project> {
                 configureKotlinAndroid(this)
                 defaultConfig.targetSdk = Version.Sdk.target
             }
-
-            configureJvmToolchain()
         }
     }
 }
