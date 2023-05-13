@@ -1,6 +1,5 @@
 package com.ph.notestash.data.model.note
 
-import com.ph.notestash.common.uuid.UUIDTestData
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
@@ -15,7 +14,7 @@ class NoteMappingTestArgumentProvider : ArgumentsProvider {
             content = "DefaultNote title"
         ),
         NoteEntity(
-            id = UUIDTestData.uuidString2,
+            id = "4c9b9344-6017-474b-93f0-f2a49a6f0b3b",
             title = "NoteEntity title",
             content = "NoteEntity content",
             createdAt = Instant.MIN,

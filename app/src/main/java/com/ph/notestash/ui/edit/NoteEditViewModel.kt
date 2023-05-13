@@ -91,7 +91,7 @@ class NoteEditViewModel @Inject constructor(
         Timber.d("createNewNote()")
         val now = timeProvider.now
         return DefaultNote(
-            id = uuidProvider.uuid.toString(),
+            id = uuidProvider.uuid,
             title = "",
             content = "",
             createdAt = now,

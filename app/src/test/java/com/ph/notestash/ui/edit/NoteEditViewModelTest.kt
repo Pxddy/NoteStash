@@ -6,7 +6,6 @@ import com.ph.core.testing.common.coroutines.dispatcher.TestDispatcherProvider
 import com.ph.notestash.common.time.TimeProvider
 import com.ph.notestash.common.time.TimeTestData
 import com.ph.notestash.common.uuid.UUIDProvider
-import com.ph.notestash.common.uuid.UUIDTestData
 import com.ph.notestash.data.model.note.*
 import com.ph.notestash.data.repository.NoteRepository
 import com.ph.notestash.testutils.MainDispatcherExtension
@@ -26,6 +25,9 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(MainDispatcherExtension::class, TimberExtension::class, MockKExtension::class)
 internal class NoteEditViewModelTest {
 
+    private val uuid1 = "fd0a781d-8516-42b9-978d-b5baeac582ac"
+    private val uuid2 = "4c9b9344-6017-474b-93f0-f2a49a6f0b3b"
+    private val uuid3 = "61ecb68a-06b4-4652-96ac-de0dd02163fb"
     private val defaultNote = NoteTestData.testDefaultNote
     private val noteFlow: MutableStateFlow<Note?> = MutableStateFlow(null)
 
@@ -49,7 +51,7 @@ internal class NoteEditViewModelTest {
         noteFlow.value = null
 
         every { timeProvider.now } returns TimeTestData.testInstant
-        every { uuidProvider.uuid } returns UUIDTestData.uuid1
+        every { uuidProvider.uuid } returns uuid1
 
         with(noteRepository) {
             every { noteForId(any()) } returns noteFlow
@@ -67,7 +69,7 @@ internal class NoteEditViewModelTest {
 
     @Test
     fun `ui state is Failure if note for id fails`() = runTest {
-        coEvery { noteRepository.noteForId(any()) } returns flow { throw Exception("Test error") }
+        coEvery { noteRepository.noteForId(any()) } returns flow { error("Test error") }
 
         createViewModel().uiState.test {
             awaitItem() shouldBe NoteEditUiState.Failure
@@ -127,20 +129,20 @@ internal class NoteEditViewModelTest {
     @Test
     fun `delete calls delete on repo with specified id`() = runTest {
         val savedStateHandle = SavedStateHandle().apply {
-            this[KEY_NOTE_ID] = UUIDTestData.uuidString1
+            this[KEY_NOTE_ID] = uuid1
         }
         with(createViewModel(savedStateHandle)) {
             deleteNote()
             events.test { awaitItem() shouldBe NoteEditEvent.NavigateBack }
         }
 
-        savedStateHandle[KEY_NOTE_ID] = UUIDTestData.uuidString2
+        savedStateHandle[KEY_NOTE_ID] = uuid2
         with(createViewModel(savedStateHandle)) {
             deleteNote()
             events.test { awaitItem() shouldBe NoteEditEvent.NavigateBack }
         }
 
-        savedStateHandle[KEY_NOTE_ID] = UUIDTestData.uuidString3
+        savedStateHandle[KEY_NOTE_ID] = uuid3
         with(createViewModel(savedStateHandle)) {
             deleteNote()
             events.test { awaitItem() shouldBe NoteEditEvent.NavigateBack }
@@ -148,20 +150,19 @@ internal class NoteEditViewModelTest {
 
         coVerifyOrder {
             with(noteRepository) {
-                deleteNote(UUIDTestData.uuidString1)
-                deleteNote(UUIDTestData.uuidString2)
-                deleteNote(UUIDTestData.uuidString3)
+                deleteNote(uuid1)
+                deleteNote(uuid2)
+                deleteNote(uuid3)
             }
         }
     }
 
     @Test
     fun `consumes deletion failure silently`() = runTest {
-        val id = UUIDTestData.uuidString2
         coEvery { noteRepository.deleteNote(any()) } returns Result.failure(Exception("Test error"))
 
         val savedStateHandle = SavedStateHandle().apply {
-            this[KEY_NOTE_ID] = id
+            this[KEY_NOTE_ID] = uuid2
         }
 
         with(createViewModel(savedStateHandle)) {
@@ -170,34 +171,32 @@ internal class NoteEditViewModelTest {
         }
 
         coVerify {
-            noteRepository.deleteNote(id)
+            noteRepository.deleteNote(uuid2)
         }
     }
 
     @Test
     fun `uses note id from nav args`() {
-        val id = UUIDTestData.uuidString3
         val savedStateHandle = SavedStateHandle().apply {
-            this["noteId"] = id
+            this["noteId"] = uuid3
         }
 
         createViewModel(savedStateHandle)
 
-        coVerify { noteRepository.noteForId(id) }
+        coVerify { noteRepository.noteForId(uuid3) }
     }
 
     @Test
     fun `uses note id from saved state handle`() {
-        val id = UUIDTestData.uuidString2
         val savedStateHandle = SavedStateHandle().apply {
-            this[KEY_NOTE_ID] = id
+            this[KEY_NOTE_ID] = uuid2
         }
 
         savedStateHandle.get<String>("noteId") shouldBe null
 
         createViewModel(savedStateHandle)
 
-        coVerify { noteRepository.noteForId(id) }
+        coVerify { noteRepository.noteForId(uuid2) }
     }
 
     @Test
@@ -232,9 +231,8 @@ internal class NoteEditViewModelTest {
     fun `updates title of note`() = runTest{
         val slot = slot<UpdateNoteAction>()
         val updatedTitle = "Updated title"
-        val id = UUIDTestData.uuidString3
         val savedStateHandle = SavedStateHandle().apply {
-            this[KEY_NOTE_ID] = id
+            this[KEY_NOTE_ID] = uuid3
         }
 
         coEvery {
@@ -249,16 +247,15 @@ internal class NoteEditViewModelTest {
         slot.captured(mutable)
         mutable.title shouldBe updatedTitle
 
-        coVerify { noteRepository.updateNote(id, update = any()) }
+        coVerify { noteRepository.updateNote(uuid3, update = any()) }
     }
 
     @Test
     fun `updates content of note`() = runTest{
         val slot = slot<UpdateNoteAction>()
         val updatedContent = "Updated content"
-        val id = UUIDTestData.uuidString1
         val savedStateHandle = SavedStateHandle().apply {
-            this[KEY_NOTE_ID] = id
+            this[KEY_NOTE_ID] = uuid1
         }
 
         coEvery {
@@ -273,16 +270,15 @@ internal class NoteEditViewModelTest {
         slot.captured(mutable)
         mutable.content shouldBe updatedContent
 
-        coVerify { noteRepository.updateNote(id, update = any()) }
+        coVerify { noteRepository.updateNote(uuid1, update = any()) }
     }
 
     @Test
     fun `consumes note update silently`() = runTest{
         val slot = slot<UpdateNoteAction>()
         val updatedContent = "Updated content"
-        val id = UUIDTestData.uuidString1
         val savedStateHandle = SavedStateHandle().apply {
-            this[KEY_NOTE_ID] = id
+            this[KEY_NOTE_ID] = uuid1
         }
         val viewModel = createViewModel(savedStateHandle)
 
@@ -305,7 +301,7 @@ internal class NoteEditViewModelTest {
         slot.captured(mutable)
         mutable.content shouldBe updatedContent
 
-        coVerify(exactly = 2) { noteRepository.updateNote(id, update = any()) }
+        coVerify(exactly = 2) { noteRepository.updateNote(uuid1, update = any()) }
     }
 }
 
