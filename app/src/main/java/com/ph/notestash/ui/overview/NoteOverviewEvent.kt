@@ -6,5 +6,5 @@ sealed interface NoteOverviewEvent {
     data class NavigateToNoteEdit(val id: String? = null) : NoteOverviewEvent
     data class RestoreNote(val note: Note, val retry: Boolean = false) : NoteOverviewEvent
     data class DeletionFailure(val pos: Int) : NoteOverviewEvent
-    object ShowSortingDialog : NoteOverviewEvent
+    data object ShowSortingDialog : NoteOverviewEvent
 }
