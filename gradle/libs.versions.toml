@@ -23,6 +23,7 @@ junit4 = "4.13.2"
 jupiter = "5.9.3"
 kotest = "5.6.2"
 kotlin = "1.8.22"
+ksp = "1.8.22-1.0.11"
 material3 = "1.9.0"
 mockk = "1.13.5"
 moshi = "1.15.0"
@@ -116,4 +117,5 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 androidx-navigation-safeargs-gradlePlugin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidxNavigation" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt-gradlePlugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }

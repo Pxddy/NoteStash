@@ -3,8 +3,9 @@ import common.Version
 plugins {
     id("notestash.android.application")
     alias(libs.plugins.androidx.navigation.safeargs.gradlePlugin)
-    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt.gradlePlugin)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -20,19 +21,6 @@ android {
 
         vectorDrawables {
             useSupportLibrary = true
-        }
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += arrayOf(
-                    "room.incremental" to "true",
-                    "room.expandProjection" to "true"
-                )
-
-                compilerArgumentProviders(
-                    RoomSchemaArgProvider(schemaDir = File(projectDir, "schemas"))
-                )
-            }
         }
     }
 
@@ -73,6 +61,10 @@ hilt {
 kapt {
     // Recommended for Hilt
     correctErrorTypes = true
+}
+
+ksp {
+    arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
 }
 
 dependencies {
@@ -121,7 +113,7 @@ dependencies {
 
     // Room
     implementation(libs.bundles.androidx.room)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
     // Paging
     implementation(libs.androidx.paging.runtime)
@@ -134,20 +126,15 @@ dependencies {
 
     // Moshi
     implementation(libs.moshi.moshi)
-    kapt(libs.moshi.codegen)
+    ksp(libs.moshi.codegen)
 
     implementation(libs.simpleViewBinding)
 }
 
-private class RoomSchemaArgProvider(
+class RoomSchemaArgProvider(
     @get:InputDirectory
     @get:PathSensitive(PathSensitivity.RELATIVE)
-    val schemaDir: File
+    val schemaDir: File,
 ) : CommandLineArgumentProvider {
-
-    override fun asArguments(): Iterable<String> {
-        // Note: If you're using KSP, you should change the line below to return
-        // listOf("room.schemaLocation=${schemaDir.path}")
-        return listOf("-Aroom.schemaLocation=${schemaDir.path}")
-    }
+    override fun asArguments() = listOf("room.schemaLocation=${schemaDir.path}")
 }
