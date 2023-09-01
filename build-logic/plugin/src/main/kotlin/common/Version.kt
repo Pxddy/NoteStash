@@ -17,8 +17,8 @@ object Version {
 
     object Sdk {
         const val min = 21
-        const val target = 33
-        const val compile = 33
+        const val target = 34
+        const val compile = 34
     }
 
     object Java {

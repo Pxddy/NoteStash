@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.androidx.navigation.safeargs.gradlePlugin)
     alias(libs.plugins.hilt.gradlePlugin)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -58,11 +57,6 @@ hilt {
     enableAggregatingTask = true
 }
 
-kapt {
-    // Recommended for Hilt
-    correctErrorTypes = true
-}
-
 ksp {
     arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
 }
@@ -76,7 +70,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext)
 
     androidTestImplementation(libs.hilt.testing)
-    kaptAndroidTest(libs.hilt.compiler)
+    kspAndroidTest(libs.hilt.compiler)
 
     testImplementation(libs.bundles.jupiter)
     testImplementation(libs.mockk)
@@ -100,7 +94,7 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     // Navigation
     implementation(libs.bundles.androidx.navigation)

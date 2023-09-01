@@ -1,6 +1,6 @@
 plugins {
     id("notestash.android.library")
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -20,7 +20,7 @@ dependencies {
     implementation(libs.androidx.test.runner)
 
     implementation(libs.hilt.testing)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     api(libs.kotlinx.coroutines.test)
     api(libs.androidx.test.core.ktx)
