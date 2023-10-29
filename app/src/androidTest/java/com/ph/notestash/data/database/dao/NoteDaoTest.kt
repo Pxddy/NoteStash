@@ -19,7 +19,7 @@ internal class NoteDaoTest : BaseDatabaseTest() {
     override val hiltRule = HiltAndroidRule(this)
 
     private val dao: NoteDao
-        get() = db.noteDao
+        get() = db.noteDao()
 
     private val entity1 = createNoteEntity(1)
     private val entity2 = createNoteEntity(2)

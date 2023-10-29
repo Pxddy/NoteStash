@@ -17,7 +17,7 @@ import com.ph.notestash.data.model.note.NoteEntity
 @TypeConverters(TimeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract val noteDao: NoteDao
+    abstract fun noteDao(): NoteDao
 
     companion object {
         const val DATABASE_NAME = "app-db"

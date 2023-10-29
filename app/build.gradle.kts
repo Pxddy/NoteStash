@@ -3,6 +3,7 @@ import common.Version
 plugins {
     id("notestash.android.application")
     alias(libs.plugins.androidx.navigation.safeargs.gradlePlugin)
+    alias(libs.plugins.androidx.room)
     alias(libs.plugins.hilt.gradlePlugin)
     alias(libs.plugins.ksp)
 }
@@ -58,7 +59,11 @@ hilt {
 }
 
 ksp {
-    arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
+    arg("room.generateKotlin", "true")
+}
+
+room {
+    schemaDirectory("$projectDir/schemas/")
 }
 
 dependencies {
@@ -123,12 +128,4 @@ dependencies {
     ksp(libs.moshi.codegen)
 
     implementation(libs.simpleViewBinding)
-}
-
-class RoomSchemaArgProvider(
-    @get:InputDirectory
-    @get:PathSensitive(PathSensitivity.RELATIVE)
-    val schemaDir: File,
-) : CommandLineArgumentProvider {
-    override fun asArguments() = listOf("room.schemaLocation=${schemaDir.path}")
 }

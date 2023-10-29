@@ -30,5 +30,5 @@ object DatabaseTestModule {
         .build()
 
     @Provides
-    fun provideNoteDao(appDatabase: AppDatabase): NoteDao = appDatabase.noteDao
+    fun provideNoteDao(appDatabase: AppDatabase): NoteDao = appDatabase.noteDao()
 }

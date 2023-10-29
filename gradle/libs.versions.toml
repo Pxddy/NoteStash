@@ -13,7 +13,7 @@ androidxLifecycle = "2.6.2"
 androidxNavigation = "2.7.4"
 androidxPaging = "3.2.1"
 androidxRecyclerview = "1.3.2"
-androidxRoom = "2.5.2"
+androidxRoom = "2.6.0"
 androidXTestCore = "1.5.0"
 androidxTestExt = "1.1.5"
 androidxTestRunner = "1.5.2"
@@ -67,7 +67,7 @@ androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espres
 androidx-test-espresso-contrib = { group = "androidx.test.espresso", name = "espresso-contrib", version.ref = "androidxEspresso" }
 androidx-test-ext = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxTestExt" }
 
-androidx-test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref="androidXTestCore" }
+androidx-test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "androidXTestCore" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
@@ -115,6 +115,7 @@ kotlinx-coroutines = ["kotlinx-coroutines-android", "kotlinx-coroutines-core"]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 androidx-navigation-safeargs-gradlePlugin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidxNavigation" }
+androidx-room = { id = "androidx.room", version.ref = "androidxRoom" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt-gradlePlugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
