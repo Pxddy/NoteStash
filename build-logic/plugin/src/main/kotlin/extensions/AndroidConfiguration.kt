@@ -4,12 +4,14 @@ import com.android.build.api.dsl.CommonExtension
 import common.Version
 import common.libs
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     commonExtension.apply {
         compileSdk = Version.Sdk.compile
@@ -28,6 +30,23 @@ internal fun Project.configureKotlinAndroid(
         }
     }
 
+    configureKotlinJvm()
+
+    dependencies {
+        add("coreLibraryDesugaring", libs.android.desugarJdkLibs)
+    }
+}
+
+private fun Project.configureKotlinJvm() {
+    extensions.configure<JavaPluginExtension> {
+        sourceCompatibility = Version.Java.version
+        targetCompatibility = Version.Java.version
+    }
+
+    configureKotlin()
+}
+
+private fun Project.configureKotlin() {
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
             jvmTarget = Version.Java.version.toString()
@@ -40,9 +59,5 @@ internal fun Project.configureKotlinAndroid(
                 "-opt-in=kotlin.ExperimentalStdlibApi"
             )
         }
-    }
-
-    dependencies {
-        add("coreLibraryDesugaring", libs.android.desugarJdkLibs)
     }
 }
