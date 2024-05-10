@@ -2,5 +2,14 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base"
+  ],
+  "packageRules": [
+    {
+      "groupName" : "Kotlin and compiler plugins",
+      "matchPackagePrefixes" : [
+        "org.jetbrains.kotlin:",
+        "com.google.devtools.ksp:"
+      ]
+    }
   ]
 }
