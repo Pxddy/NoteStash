@@ -7,7 +7,7 @@
     {
       "groupName" : "Kotlin and compiler plugins",
       "matchPackagePrefixes" : [
-        "org.jetbrains.kotlin",
+        "org.jetbrains.kotlin.*",
         "com.google.devtools.ksp"
       ]
     }
