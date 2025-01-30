@@ -17,13 +17,13 @@ object Version {
 
     object Sdk {
         const val min = 21
-        const val target = 34
-        const val compile = 34
+        const val target = 35
+        const val compile = 35
     }
 
     object Java {
-        val version = JavaVersion.VERSION_11
-        val jvmTarget = JvmTarget.JVM_11
+        val version = JavaVersion.VERSION_21
+        val jvmTarget = JvmTarget.JVM_21
         val languageVersion: JavaLanguageVersion = JavaLanguageVersion.of(version.majorVersion)
     }
 }
