@@ -2,6 +2,7 @@ package com.ph.notestash.ui.edit
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
 import com.ph.notestash.R
 import com.ph.notestash.common.fragment.popBackStack
+import com.ph.notestash.common.ui.applyWindowInsets
 import com.ph.notestash.databinding.FragmentNoteEditBinding
 import com.ph.notestash.ui.edit.dialog.NoteEditDeletionConfirmationDialogFragment
 import com.pxddy.simpleviewbinding.viewBinding
@@ -30,6 +32,15 @@ class NoteEditFragment : Fragment(R.layout.fragment_note_edit) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.applyWindowInsets(
+            typeMask = WindowInsetsCompat.Type.systemBars()
+                    or WindowInsetsCompat.Type.displayCutout()
+                    or WindowInsetsCompat.Type.ime(),
+            start = true,
+            top = true,
+            end = true,
+            bottom = true,
+        )
         bindViewModel()
     }
 
@@ -69,6 +80,7 @@ class NoteEditFragment : Fragment(R.layout.fragment_note_edit) {
                 if (!title.isInputMethodTarget) title.setText(uiState.title)
                 if (!content.isInputMethodTarget) content.setText(uiState.content)
             }
+
             NoteEditUiState.Failure,
             NoteEditUiState.Loading -> Unit
         }

@@ -2,6 +2,7 @@ package com.ph.notestash.ui.overview
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +17,7 @@ import com.ph.notestash.common.coroutines.dispatcher.DispatcherProvider
 import com.ph.notestash.common.coroutines.flow.collectLatestIn
 import com.ph.notestash.common.fragment.navigateTo
 import com.ph.notestash.common.recyclerview.swipe.SimpleSwipeCallback
+import com.ph.notestash.common.ui.applyWindowInsets
 import com.ph.notestash.databinding.FragmentNoteOverviewBinding
 import com.ph.notestash.ui.overview.list.NoteOverviewListAdapter
 import com.pxddy.simpleviewbinding.viewBinding
@@ -36,6 +38,13 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.applyWindowInsets(
+            typeMask = WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout(),
+            start = true,
+            top = true,
+            end = true,
+            bottom = true,
+        )
         bindViewModel()
         setupMenu()
     }
@@ -86,6 +95,7 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
                     noteId = event.id
                 )
             )
+
             is NoteOverviewEvent.RestoreNote -> event.handle()
             is NoteOverviewEvent.DeletionFailure -> {
                 adapter.notifyItemChanged(event.pos)
@@ -95,6 +105,7 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
+
             NoteOverviewEvent.ShowSortingDialog -> navigateTo(
                 NoteOverviewFragmentDirections
                     .actionNoteOverviewFragmentToNoteOverviewSortDialogFragment()
@@ -120,6 +131,7 @@ class NoteOverviewFragment : Fragment(R.layout.fragment_note_overview) {
                     viewModel.showSortingDialog()
                     true
                 }
+
                 else -> false
             }
         }
