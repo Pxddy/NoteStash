@@ -76,9 +76,8 @@ hilt-testing = { group = "com.google.dagger", name = "hilt-android-testing", ver
 
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 
-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "jupiter" }
-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "jupiter" }
-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "jupiter" }
+jupiter-bom = { module = "org.junit:junit-bom", version.ref = "jupiter" }
+jupiter-core = { module = "org.junit.jupiter:junit-jupiter" }
 
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 
@@ -108,7 +107,6 @@ androidx-layout = ["androidx-constraintlayout", "android-coordinatorlayout"]
 androidx-navigation = ["androidx-navigation-fragment", "androidx-navigation-ui"]
 androidx-room = ["androidx-room-runtime", "androidx-room-ktx", "androidx-room-paging"]
 androidx-test-espresso = ["androidx-test-espresso-contrib", "androidx-test-espresso-core"]
-jupiter = ["jupiter-api", "jupiter-engine", "jupiter-params"]
 kotlinx-coroutines = ["kotlinx-coroutines-android", "kotlinx-coroutines-core"]
 
 [plugins]

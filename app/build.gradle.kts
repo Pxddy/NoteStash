@@ -77,7 +77,8 @@ dependencies {
     androidTestImplementation(libs.hilt.testing)
     kspAndroidTest(libs.hilt.compiler)
 
-    testImplementation(libs.bundles.jupiter)
+    testImplementation(platform(libs.jupiter.bom))
+    testImplementation(libs.jupiter.core)
     testImplementation(libs.mockk)
     testImplementation(libs.turbine)
     implementation(libs.androidx.appcompat)
