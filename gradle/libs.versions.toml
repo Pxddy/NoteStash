@@ -29,7 +29,7 @@ mockk = "1.14.2"
 moshi = "1.15.2"
 simpleViewBinding = "v1.0.0"
 timber = "5.0.1"
-turbine = "1.2.0"
+turbine = "1.2.1"
 
 [libraries]
 android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
