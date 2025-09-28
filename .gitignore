@@ -3,6 +3,7 @@
 *.aar
 *.ap_
 *.aab
+*.salive
 
 # Files for the ART/Dalvik VM
 *.dex
@@ -73,4 +74,3 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
-
