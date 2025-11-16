@@ -3,12 +3,16 @@ package com.ph.notestash.data.model.note
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.support.ParameterDeclarations
 import java.time.Instant
 import java.util.stream.Stream
 import kotlin.time.Duration.Companion.days
 
 class NoteMappingTestArgumentProvider : ArgumentsProvider {
-    override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = listOf(
+    override fun provideArguments(
+        parameters: ParameterDeclarations,
+        context: ExtensionContext,
+    ): Stream<out Arguments> = listOf(
         NoteTestData.testDefaultNote.copy(
             title = "DefaultNote title",
             content = "DefaultNote title"

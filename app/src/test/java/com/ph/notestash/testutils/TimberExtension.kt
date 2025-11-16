@@ -19,11 +19,11 @@ internal class TimberExtension : BeforeAllCallback, AfterAllCallback {
         }
     }
 
-    override fun beforeAll(context: ExtensionContext?) {
+    override fun beforeAll(context: ExtensionContext) {
         Timber.plant(printTree)
     }
 
-    override fun afterAll(context: ExtensionContext?) {
+    override fun afterAll(context: ExtensionContext) {
         Timber.uproot(printTree)
     }
 
