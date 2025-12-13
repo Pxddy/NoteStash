@@ -79,7 +79,7 @@ jobs:
           script: ./gradlew connectedAndroidTest --daemon --stacktrace
 
       - name: Upload test outputs
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: test-outputs
