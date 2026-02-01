@@ -2,5 +2,18 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+  "executionTimeout": 45,
+  "constraints": {
+    "java": "^17.0.0"
+  },
+  "env": {
+    "GRADLE_OPTS": "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=1 -Xmx2g"
+  },
+  "packageRules": [
+    {
+      "matchPackageNames": ["gradle"],
+      "executionTimeout": 60
+    }
   ]
 }
