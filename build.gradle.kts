@@ -4,6 +4,5 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.androidx.navigation.safeargs.gradlePlugin) apply false
     alias(libs.plugins.hilt.gradlePlugin) apply false
-    alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.ksp) apply false
 }

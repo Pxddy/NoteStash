@@ -112,6 +112,5 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 androidx-navigation-safeargs-gradlePlugin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidxNavigation" }
 androidx-room = { id = "androidx.room", version.ref = "androidxRoom" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt-gradlePlugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
