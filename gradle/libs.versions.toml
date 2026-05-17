@@ -26,7 +26,7 @@ ksp = "2.3.8"
 material3 = "1.14.0"
 mockk = "1.14.9"
 moshi = "1.15.2"
-simpleViewBinding = "v1.0.0"
+simpleViewBinding = "1.0.0"
 timber = "5.0.1"
 turbine = "1.2.1"
 
